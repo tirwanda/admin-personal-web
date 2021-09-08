@@ -1,23 +1,18 @@
-import styled from 'styled-components';
-import "./App.css";
-
-import AccountBox from './template/AccountBox'
-
-const AppContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-`;
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
+import LoginPage from './pages/LoginPage/LoginPage';
 
 function App() {
-  return (
-    <AppContainer>
-      <AccountBox />
-    </AppContainer>
-  );
+	return (
+		<div>
+			<Router>
+				<Switch>
+					<Route exact path="/login" component={LoginPage} />
+					{/* <Route exact path="/" component={Resume} /> */}
+				</Switch>
+			</Router>
+		</div>
+	);
 }
 
 export default App;

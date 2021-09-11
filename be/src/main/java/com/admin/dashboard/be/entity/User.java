@@ -58,10 +58,9 @@ public class User implements UserDetails {
     @JoinTable(
             name = "AUTH_USER_AUTHORITY",
             joinColumns = @JoinColumn(referencedColumnName = "userId"),
-            inverseJoinColumns = @JoinColumn(referencedColumnName = "userId")
+            inverseJoinColumns = @JoinColumn(referencedColumnName = "id")
     )
     private List<Authority> authorities;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

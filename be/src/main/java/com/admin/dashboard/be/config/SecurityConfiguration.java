@@ -1,5 +1,7 @@
 package com.admin.dashboard.be.config;
 
+import com.admin.dashboard.be.service.CustomUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,11 +14,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private CustomUserService useService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // In memory, Delete when production
         auth.inMemoryAuthentication().withUser("admin")
                 .password(passwordEncoder().encode("rahasia"))
                 .authorities("USER", "ADMIN");
+
+        // Database Auth
+        auth.userDetailsService(useService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -30,6 +40,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest().authenticated();
         http.formLogin();
         http.httpBasic();
-
     }
 }

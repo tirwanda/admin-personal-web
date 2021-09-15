@@ -21,28 +21,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserService useService;
+    private CustomUserService userService;
 
     @Autowired
-    private JWTTokenHelper jwtTokenHelper;
+    private JWTTokenHelper jWTTokenHelper;
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // In memory, Delete when production
-        auth.inMemoryAuthentication().withUser("admin")
-                .password(passwordEncoder().encode("rahasia"))
+
+        auth.inMemoryAuthentication().withUser("tirwanda").password(passwordEncoder().encode("rahasia"))
                 .authorities("USER", "ADMIN");
 
-        // Database Auth
-        auth.userDetailsService(useService).passwordEncoder(passwordEncoder());
-    }
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
     }
 
     @Bean
@@ -50,21 +44,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // http.authorizeRequests().anyRequest().permitAll();
-        // http.authorizeRequests().anyRequest().authenticated();
-        // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS.)
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
-                .authorizeRequests((request) -> request.antMatchers("/authenticate")
-                        .permitAll().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .anyRequest().authenticated())
-                .addFilterBefore(new JWTAuthenticationFilter(useService, jwtTokenHelper),
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
+                .authorizeRequests((request) -> request.antMatchers("/h2-console/**", "/auth/login")
+                        .permitAll().antMatchers(HttpMethod.OPTIONS, "/**")
+                        .permitAll().anyRequest().authenticated())
+                .addFilterBefore(new JWTAuthenticationFilter(userService, jWTTokenHelper),
                         UsernamePasswordAuthenticationFilter.class);
-        http.cors();
-        http.csrf().disable().headers().frameOptions().disable();
-        http.formLogin();
-        // http.httpBasic();
+
+        http.csrf().disable().cors().and().headers().frameOptions().disable();
+
     }
 }

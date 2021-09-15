@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 //@RequestMapping("/api/v1/")
 public class UserController {
 
-    @GetMapping("/")
+    @GetMapping("/dashboard")
     public String testApp() {
         return "Hello Spring Security";
     }
-
 }

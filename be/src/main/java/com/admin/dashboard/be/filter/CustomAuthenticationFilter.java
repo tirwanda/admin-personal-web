@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -76,5 +77,17 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request
+            , HttpServletResponse response, AuthenticationException failed)
+            throws IOException {
+
+        Map<String, String> message = new HashMap<>();
+        message.put("errorMessage", "Username or Password Invalid");
+
+        response.setContentType(APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), message);
     }
 }

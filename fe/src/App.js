@@ -1,72 +1,18 @@
-import {
-	BrowserRouter as Router,
-	Route,
-	Switch,
-	Redirect,
-} from 'react-router-dom';
-import { useReducer, createContext } from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import './App.css';
 import LoginPage from './pages/LoginPage/LoginPage';
 import Dashboard from './pages/Dashboard/Dashboard';
 
-// Context
-export const AuthContext = createContext();
-
-// Initial State
-const initialState = {
-	isAuthenticated: false,
-	user: null,
-	token: null,
-};
-
-// Reducer
-const reducer = (state, action) => {
-	switch (action.type) {
-		case 'LOGIN':
-			localStorage.setItem('user', JSON.stringify(action.payload.user));
-			localStorage.setItem('token', JSON.stringify(action.payload.token));
-			return {
-				...state,
-				isAuthenticated: true,
-				user: action.payload.user,
-				token: action.payload.access_token,
-			};
-
-		case 'LOGOUT':
-			localStorage.clear();
-			return {
-				...state,
-				isAuthenticated: false,
-				user: null,
-			};
-
-		default:
-			return state;
-	}
-};
+const history = createBrowserHistory();
 
 function App() {
-	const [state, dispatch] = useReducer(reducer, initialState);
-
 	return (
 		<div>
-			<Router>
+			<Router history={history}>
 				<Switch>
-					<AuthContext.Provider
-						value={{
-							state,
-							dispatch,
-						}}
-					>
-						{!state.isAuthenticated ? (
-							<Redirect to={{ pathname: '/' }} />
-						) : (
-							<Redirect to={{ pathname: '/dashboard' }} />
-						)}
-
-						<Route exact path="/" component={LoginPage} />
-						<Route path="/dashboard" component={Dashboard} />
-					</AuthContext.Provider>
+					<Route exact path="/" component={LoginPage} />
+					<Route path="/dashboard" component={Dashboard} />
 				</Switch>
 			</Router>
 		</div>

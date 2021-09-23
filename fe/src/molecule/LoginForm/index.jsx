@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
 import qs from 'query-string';
 
 import {
@@ -12,78 +11,74 @@ import {
 } from '../../atoms/Common';
 import { Marginer } from '../../atoms/Marginer';
 import { AccountContext } from '../../context/accountContext';
-import { AuthContext } from '../../App';
 
-const url = 'http://localhost:8080';
+import { connect } from 'react-redux';
+import {
+	authenticate,
+	authFailure,
+	authSuccess,
+} from '../../redux/authActions';
+import { userLogin } from '../../api/authenticationService';
 
-export function LoginForm(props) {
+const LoginForm = ({ loading, error, ...props }) => {
 	const { switchToSignup } = useContext(AccountContext);
-	const { dispatch } = useContext(AuthContext);
 
 	const initialState = {
 		username: '',
 		password: '',
-		isSubmit: false,
-		errorMessage: null,
 	};
 
-	const [data, setData] = useState(initialState);
+	const [value, setValue] = useState(initialState);
 
 	const handleInputChange = (event) => {
-		setData({
-			...data,
+		setValue({
+			...value,
 			[event.target.name]: event.target.value,
 		});
-
-		console.log({ data });
 	};
 
 	const handleFormSubmit = (event) => {
 		event.preventDefault();
+		props.authenticate();
 
-		setData({
-			...data,
-			isSubmit: true,
-			errorMessage: null,
-		});
+		userLogin(qs.stringify(value))
+			.then((response) => {
+				console.log(response);
 
-		const requestBody = {
-			username: data.username,
-			password: data.password,
-		};
-
-		const config = {
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-		};
-
-		axios
-			.post(`${url}/api/login`, qs.stringify(requestBody), config)
-			.then((res) => {
-				console.log(res);
-
-				if (data.access_token) {
-					dispatch({
-						type: 'LOGIN',
-						payload: res.data,
-					});
+				if (response.status === 200) {
+					props.setUser(response.data);
+					props.history.push('/dashboard');
+					console.log('Local Storage: ', localStorage);
 				} else {
-					setData({
-						...data,
-						isSubmit: false,
-						errorMessage: res.data.errorMessage,
-					});
+					props.loginFailure('Username or password is invalid');
 				}
-				throw res;
+			})
+			.catch((err) => {
+				console.log('Error Message: ', err);
+				if (err && err.response) {
+					switch (err.response.status) {
+						case 401:
+							console.log('401 status');
+							props.loginFailure(
+								'Authentication Failed.Bad Credentials'
+							);
+							break;
+						default:
+							props.loginFailure(
+								'Something Wrong!Please Try Again'
+							);
+					}
+				} else {
+					props.loginFailure('Something Wrong!Please Try Again');
+				}
 			});
 	};
 
 	return (
 		<BoxContainer>
-			{data.errorMessage && (
+			{value.errorMessage && (
 				<div className="alert alert-danger" role="alert">
-					{data.errorMessage}
+					{value.errorMessage}
 				</div>
 			)}
 
@@ -92,7 +87,7 @@ export function LoginForm(props) {
 					placeholder="Username"
 					type="text"
 					name="username"
-					value={data.username}
+					value={value.username}
 					onChange={handleInputChange}
 				/>
 
@@ -100,7 +95,7 @@ export function LoginForm(props) {
 					placeholder="Password"
 					type="password"
 					name="password"
-					value={data.password}
+					value={value.password}
 					onChange={handleInputChange}
 				/>
 			</FormContainer>
@@ -113,10 +108,10 @@ export function LoginForm(props) {
 
 			<SubmitButton
 				type="submit"
-				disabled={data.isSubmit}
+				disabled={value.isSubmit}
 				onClick={handleFormSubmit}
 			>
-				{data.isSubmit ? 'Loading...' : 'Signin'}
+				{value.isSubmit ? 'Loading...' : 'Signin'}
 			</SubmitButton>
 
 			<Marginer direction="vertical" margin="1em" />
@@ -128,4 +123,22 @@ export function LoginForm(props) {
 			</MutedLink>
 		</BoxContainer>
 	);
-}
+};
+
+const mapStateToProps = ({ auth }) => {
+	console.log('state: ', auth);
+	return {
+		loading: auth.loading,
+		error: auth.error,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		authenticate: () => dispatch(authenticate()),
+		setUser: (data) => dispatch(authSuccess(data)),
+		loginFailure: (message) => dispatch(authFailure(message)),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

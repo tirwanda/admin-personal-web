@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-import { LoginForm } from '../../molecule/LoginForm';
+import LoginForm from '../../molecule/LoginForm';
 import { AccountContext } from '../../context/accountContext';
 import SignupForm from '../../molecule/SignupForm';
 

@@ -1,9 +1,11 @@
-import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE } from '../types';
+import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGOUT } from '../types';
 
 const initialState = {
 	user: {},
 	error: '',
 	loading: false,
+	isAuthenticated: false,
+	// token: null
 };
 
 // Reducer
@@ -23,6 +25,7 @@ const auth = (state = initialState, action) => {
 				...state,
 				error: '',
 				loading: false,
+				isAuthenticated: true,
 				user: data,
 			};
 
@@ -32,6 +35,12 @@ const auth = (state = initialState, action) => {
 				...state,
 				loading: false,
 				error: error,
+			};
+
+		case AUTH_LOGOUT:
+			return {
+				...state,
+				isAuthenticated: false,
 			};
 
 		default:

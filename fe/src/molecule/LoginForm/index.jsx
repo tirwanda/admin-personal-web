@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router';
 import qs from 'query-string';
 
 import {
@@ -18,16 +19,16 @@ import {
 	authFailure,
 	authSuccess,
 } from '../../redux/authActions';
+
 import { userLogin } from '../../api/authenticationService';
 
-const LoginForm = ({ loading, error, ...props }) => {
+const LoginForm = ({ loading, error, authenticated, ...props }) => {
 	const { switchToSignup } = useContext(AccountContext);
-
+	let history = useHistory();
 	const initialState = {
 		username: '',
 		password: '',
 	};
-
 	const [value, setValue] = useState(initialState);
 
 	const handleInputChange = (event) => {
@@ -43,12 +44,11 @@ const LoginForm = ({ loading, error, ...props }) => {
 
 		userLogin(qs.stringify(value))
 			.then((response) => {
-				console.log(response);
+				props.setUser(response.data);
 
-				if (response.status === 200) {
-					props.setUser(response.data);
-					props.history.push('/dashboard');
+				if (response.data.access_token) {
 					console.log('Local Storage: ', localStorage);
+					history.push('/dashboard');
 				} else {
 					props.loginFailure('Username or password is invalid');
 				}
@@ -130,6 +130,7 @@ const mapStateToProps = ({ auth }) => {
 	return {
 		loading: auth.loading,
 		error: auth.error,
+		authenticated: auth.isAuthenticated,
 	};
 };
 

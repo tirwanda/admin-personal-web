@@ -1,4 +1,4 @@
-import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE } from './types';
+import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGOUT } from './types';
 
 export const authenticate = () => {
 	return {
@@ -18,5 +18,12 @@ export const authFailure = (error) => {
 	return {
 		type: AUTH_FAILURE,
 		payload: error,
+	};
+};
+
+export const authLogout = () => {
+	localStorage.clear();
+	return {
+		type: AUTH_LOGOUT,
 	};
 };

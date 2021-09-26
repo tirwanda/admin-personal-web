@@ -24,7 +24,7 @@ public class BeApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	//	@Bean
+	// @Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
 			userService.saveRole(new Role(null,"ROLE_USER"));
@@ -34,7 +34,7 @@ public class BeApplication {
 					null,
 					"Edho Dwi Tirwanda",
 					"tirwanda",
-					"rahasia",
+					"password",
 					"edhodwitirwanda@gmail.com",
 					new ArrayList<>()));
 

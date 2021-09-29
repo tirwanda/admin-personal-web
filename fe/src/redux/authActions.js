@@ -8,6 +8,7 @@ export const authenticate = () => {
 
 export const authSuccess = (content) => {
 	localStorage.setItem('USER_KEY', content.access_token);
+	localStorage.setItem('USERNAME', content.username);
 	return {
 		type: AUTH_SUCCESS,
 		payload: content,

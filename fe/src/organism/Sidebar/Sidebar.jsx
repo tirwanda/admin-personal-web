@@ -8,7 +8,20 @@ import Team from '../../assets/social.svg';
 import Calender from '../../assets/scheduled.svg';
 import Projects from '../../assets/starred.svg';
 import Documents from '../../assets/draft.svg';
-import Logout from '../../assets/power-off-solid.svg';
+import Power from '../../assets/power-off-solid.svg';
+
+const Container = styled.div`
+	position: fixed;
+
+	.active {
+		border-right: 4px solid var(--white);
+
+		img {
+			filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
+				brightness(103%) contrast(103%);
+		}
+	}
+`;
 
 const Button = styled.button`
 	display: flex;
@@ -20,7 +33,7 @@ const Button = styled.button`
 	width: 2.5rem;
 	height: 2.5rem;
 	border-radius: 50%;
-	margin: 0.5rem 0;
+	margin: 0.5rem 0.5rem;
 	cursor: pointer;
 
 	position: relative;
@@ -123,12 +136,96 @@ const Text = styled.span`
 	transition: all 0.3s ease;
 `;
 
+const ProfilePicture = styled.div`
+	width: ${(props) => (props.clicked ? '16rem' : '3rem')};
+	height: 3rem;
+	padding: 0.5rem 0.8rem;
+	/* border: 2px solid var(--white); */
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+
+	margin-left: ${(props) => (props.clicked ? '12rem' : '0')};
+	background-color: var(--black);
+	color: var(--white);
+	transition: all 0.3s ease;
+
+	img {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+
+		&:hover {
+			border: 2px solid var(--grey);
+			padding: 2px;
+			cursor: pointer;
+		}
+	}
+`;
+
+const Name = styled.div`
+	padding: 0 1.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	h4 {
+		display: inline-block;
+		font-weight: 500;
+		margin: 0;
+		font-size: 0.9rem;
+	}
+
+	a {
+		font-size: 0.8rem;
+		text-decoration: none;
+		color: var(--grey);
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+`;
+
+const Details = styled.div`
+	display: ${(props) => (props.clicked ? 'flex' : 'none')};
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const Logout = styled.button`
+	border: none;
+	width: 3rem;
+	height: 3rem;
+	background-color: transparent;
+
+	img {
+		width: 100%;
+		height: auto;
+		filter: invert(18%) sepia(77%) saturate(7295%) hue-rotate(357deg)
+			brightness(100%) contrast(112%);
+		transition: all 0.3s ease;
+
+		&:hover {
+			border: none;
+			padding: 0;
+			opacity: 0.5;
+		}
+	}
+`;
+
 const Sidebar = () => {
 	const [click, setClick] = useState(false);
 	const handleClick = () => setClick(!click);
 
+	const [profileClick, setProfileClick] = useState(false);
+	const handleProfileClick = () => setProfileClick(!profileClick);
+
 	return (
-		<>
+		<Container>
 			<Button clicked={click} onClick={() => handleClick()}>
 				Click
 			</Button>
@@ -159,20 +256,24 @@ const Sidebar = () => {
 					</ListItem>
 				</SlickBar>
 
-				<div>
-					<img src="https://picsum.photos/200" alt="Profile" />
-					<div>
-						<div>
+				<ProfilePicture clicked={profileClick}>
+					<img
+						onClick={() => handleProfileClick()}
+						src="https://picsum.photos/200"
+						alt="Profile"
+					/>
+					<Details clicked={profileClick}>
+						<Name>
 							<h4>Edho Dwi</h4>
 							<a href="/#">View Profile</a>
-						</div>
-						<button>
-							<img src={Logout} alt="Logout" />
-						</button>
-					</div>
-				</div>
+						</Name>
+						<Logout>
+							<img src={Power} alt="Logout" />
+						</Logout>
+					</Details>
+				</ProfilePicture>
 			</SidebarContainer>
-		</>
+		</Container>
 	);
 };
 

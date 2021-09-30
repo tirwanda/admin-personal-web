@@ -1,11 +1,34 @@
 import React, { useState } from 'react';
 import { fetchUserData } from '../../api/authenticationService';
-import { useHistory } from 'react-router';
+import { Route, Switch, useHistory, useLocation } from 'react-router';
 
 import Sidebar from '../../organism/Sidebar/Sidebar';
+import Home from '../../template/Home/Home';
+import Projects from '../../template/Projects/Projects';
+import Education from '../../template/Education/Education';
+import Achievments from '../../template/Achievments/Achievments';
+import Skills from '../../template/Skills/Skills';
+import styled from 'styled-components';
+import { AnimatePresence } from 'framer-motion';
+
+const Section = styled.div`
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	h1 {
+		font-size: calc(2rem + 2vw);
+		background: linear-gradient(to right, #803bec 30%, #1b1b1b 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+`;
 
 function Dashboard(props) {
 	let history = useHistory();
+	const location = useLocation();
 	const [data, setData] = useState({});
 
 	// React.useEffect(() => {
@@ -28,6 +51,33 @@ function Dashboard(props) {
 	return (
 		<div className="dashboard">
 			<Sidebar />
+			<Section>
+				<AnimatePresence exitBeforeEnter>
+					<Switch location={location} key={location.pathname}>
+						<Route exact path="/dashboard" component={Home} />
+						<Route
+							exact
+							path="/dashboard/skills"
+							component={Skills}
+						/>
+						<Route
+							exact
+							path="/dashboard/achievments"
+							component={Achievments}
+						/>
+						<Route
+							exact
+							path="/dashboard/education"
+							component={Education}
+						/>
+						<Route
+							exact
+							path="/dashboard/projects"
+							component={Projects}
+						/>
+					</Switch>
+				</AnimatePresence>
+			</Section>
 		</div>
 	);
 }

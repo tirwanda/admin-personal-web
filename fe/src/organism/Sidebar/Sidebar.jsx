@@ -9,6 +9,7 @@ import Calender from '../../assets/scheduled.svg';
 import Projects from '../../assets/starred.svg';
 import Documents from '../../assets/draft.svg';
 import Power from '../../assets/power-off-solid.svg';
+import { NavLink } from 'react-router-dom';
 
 const Container = styled.div`
 	position: fixed;
@@ -104,10 +105,12 @@ const SlickBar = styled.ul`
 	border-radius: 0 30px 30px 0;
 `;
 
-const ListItem = styled.li`
+const ListItem = styled(NavLink)`
 	width: 100%;
 	padding: 1rem 0;
 	cursor: pointer;
+	text-decoration: none;
+	color: var(--white);
 
 	display: flex;
 	padding-left: 1rem;
@@ -234,23 +237,48 @@ const Sidebar = () => {
 					<img src={Logo} alt="logo" />
 				</LogoContainer>
 				<SlickBar clicked={click}>
-					<ListItem>
+					<ListItem
+						onClick={() => setClick(false)}
+						exact
+						activeClassName="active"
+						to="/dashboard"
+					>
 						<img src={Home} alt="Home" />
 						<Text clicked={click}>Home</Text>
 					</ListItem>
-					<ListItem>
+					<ListItem
+						onClick={() => setClick(false)}
+						exact
+						activeClassName="active"
+						to="/dashboard/skills"
+					>
 						<img src={Team} alt="Team" />
 						<Text clicked={click}>Team</Text>
 					</ListItem>
-					<ListItem>
+					<ListItem
+						onClick={() => setClick(false)}
+						exact
+						activeClassName="active"
+						to="/dashboard/achievments"
+					>
 						<img src={Calender} alt="Calender" />
 						<Text clicked={click}>Calender</Text>
 					</ListItem>
-					<ListItem>
+					<ListItem
+						onClick={() => setClick(false)}
+						exact
+						activeClassName="active"
+						to="/dashboard/education"
+					>
 						<img src={Documents} alt="Documents" />
 						<Text clicked={click}>Documents</Text>
 					</ListItem>
-					<ListItem>
+					<ListItem
+						onClick={() => setClick(false)}
+						exact
+						activeClassName="active"
+						to="/dashboard/projects"
+					>
 						<img src={Projects} alt="Projects" />
 						<Text clicked={click}>Projects</Text>
 					</ListItem>

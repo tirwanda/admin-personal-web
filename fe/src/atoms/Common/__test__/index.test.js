@@ -4,7 +4,6 @@ import {
 	FormContainer,
 	Input,
 	MutedLink,
-	SubmitButton,
 	BoldLink,
 } from '../index';
 import { render } from '@testing-library/react';
@@ -50,12 +49,6 @@ test('Should render <MutedLink /> correct', () => {
 	const container = render(<MutedLink>Forget your password?</MutedLink>);
 	const element = container.getByText('Forget your password?');
 	expect(element).toBeInTheDocument();
-});
-
-test('Shoul render <SubmitButton /> with text Signin', () => {
-	const button = render(<SubmitButton type="submit">Signin</SubmitButton>);
-	const element = button.getByText('Signin');
-	expect(element.textContent).toBe('Signin');
 });
 
 test('Should render <BoldLink /> correct', () => {

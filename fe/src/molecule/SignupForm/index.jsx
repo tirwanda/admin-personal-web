@@ -3,10 +3,10 @@ import {
 	BoxContainer,
 	FormContainer,
 	Input,
-	SubmitButton,
 	MutedLink,
 	BoldLink,
 } from '../../atoms/Common';
+import { SubmitButton } from '../../atoms/Button/Button';
 import { Marginer } from '../../atoms/Marginer';
 import { AccountContext } from '../../context/accountContext';
 

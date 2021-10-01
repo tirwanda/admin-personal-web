@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { MenuButton } from '../../atoms/Button/Button';
+
 // Svg File
 import Logo from '../../assets/logo.svg';
 import Home from '../../assets/home-solid.svg';
@@ -21,44 +23,6 @@ const Container = styled.div`
 			filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
 				brightness(103%) contrast(103%);
 		}
-	}
-`;
-
-const Button = styled.button`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	background-color: var(--black);
-	border: none;
-	width: 2.5rem;
-	height: 2.5rem;
-	border-radius: 50%;
-	margin: 0.5rem 0.5rem;
-	cursor: pointer;
-
-	position: relative;
-
-	&::before,
-	&::after {
-		content: '';
-		background-color: var(--white);
-		height: 2px;
-		width: 1rem;
-		position: absolute;
-		transition: all 0.3s ease-in-out;
-	}
-
-	&::before {
-		top: ${(props) => (props.clicked ? '1.5' : '1rem')};
-		transform: ${(props) =>
-			props.clicked ? 'rotate(135deg)' : 'rotate(0)'};
-	}
-
-	&::after {
-		top: ${(props) => (props.clicked ? '1.2' : '1.5rem')};
-		transform: ${(props) =>
-			props.clicked ? 'rotate(-135deg)' : 'rotate(0)'};
 	}
 `;
 
@@ -229,9 +193,9 @@ const Sidebar = () => {
 
 	return (
 		<Container>
-			<Button clicked={click} onClick={() => handleClick()}>
+			<MenuButton clicked={click} onClick={() => handleClick()}>
 				Click
-			</Button>
+			</MenuButton>
 			<SidebarContainer>
 				<LogoContainer>
 					<img src={Logo} alt="logo" />

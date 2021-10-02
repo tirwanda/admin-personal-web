@@ -1,11 +1,6 @@
 import React, { useContext } from 'react';
-import {
-	BoxContainer,
-	FormContainer,
-	Input,
-	MutedLink,
-	BoldLink,
-} from '../../atoms/Common';
+import { Input, MutedLink, BoldLink } from '../../atoms/Common';
+import { BoxContainer, FormContainer } from '../../atoms/Container/Container';
 import { SubmitButton } from '../../atoms/Button/Button';
 import { Marginer } from '../../atoms/Marginer';
 import { AccountContext } from '../../context/accountContext';

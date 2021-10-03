@@ -56,3 +56,41 @@ export const FormContainer = styled.div`
 	flex-direction: column;
 	box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
 `;
+
+export const NavContainer = styled.div`
+	position: fixed;
+
+	.active {
+		border-right: 4px solid var(--white);
+
+		img {
+			filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
+				brightness(103%) contrast(103%);
+		}
+	}
+`;
+
+export const SidebarContainer = styled.div`
+	background-color: var(--black);
+	width: 3.5rem;
+	height: 80vh;
+	margin-top: 1rem;
+	border-radius: 0 30px 30px 0;
+	padding: 1rem 0;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	position: relative;
+`;
+
+export const LogoContainer = styled.div`
+	width: 2.5rem;
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+`;

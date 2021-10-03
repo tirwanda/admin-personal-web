@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-
 import LoginForm from '../../molecule/LoginForm';
 import { AccountContext } from '../../context/accountContext';
 import SignupForm from '../../molecule/SignupForm';
@@ -14,41 +11,8 @@ import {
 	InnerContainer,
 } from '../../atoms/Container/Container';
 
-const BackDrop = styled(motion.div)`
-	width: 160%;
-	height: 550px;
-	position: absolute;
-	display: flex;
-	flex-direction: column;
-	border-radius: 50%;
-	transform: rotate(60deg);
-	top: -290px;
-	left: -70px;
-	background: rgb(241, 196, 15);
-	background: linear-gradient(
-		58deg,
-		rgba(241, 196, 15, 1),
-		rgba(243, 172, 18, 1)
-	);
-`;
-
-const HeaderText = styled.h2`
-	font-size: 1.875rem;
-	font-weight: 600;
-	line-height: 1.24;
-	z-index: 2;
-	margin: 0;
-	color: #fff;
-`;
-
-const SmallText = styled.h5`
-	color: #fff;
-	font-weight: 500;
-	font-weight: 0.6875rem;
-	z-index: 2;
-	margin: 0;
-	margin-top: 0.375rem;
-`;
+import { BackDrop } from '../../atoms/BackDrop/BackDrop';
+import { HeaderText, SmallText } from '../../atoms/Text/Text';
 
 const backDropVariants = {
 	expanded: {

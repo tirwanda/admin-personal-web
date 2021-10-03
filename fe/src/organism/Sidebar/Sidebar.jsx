@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { MenuButton } from '../../atoms/Button/Button';
+import {
+	NavContainer,
+	SidebarContainer,
+	LogoContainer,
+} from '../../atoms/Container/Container';
+import { TextSpan, Name } from '../../atoms/Text/Text';
 
 // Svg File
 import Logo from '../../assets/logo.svg';
@@ -11,45 +18,6 @@ import Calender from '../../assets/scheduled.svg';
 import Projects from '../../assets/starred.svg';
 import Documents from '../../assets/draft.svg';
 import Power from '../../assets/power-off-solid.svg';
-import { NavLink } from 'react-router-dom';
-
-const Container = styled.div`
-	position: fixed;
-
-	.active {
-		border-right: 4px solid var(--white);
-
-		img {
-			filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
-				brightness(103%) contrast(103%);
-		}
-	}
-`;
-
-const SidebarContainer = styled.div`
-	background-color: var(--black);
-	width: 3.5rem;
-	height: 80vh;
-	margin-top: 1rem;
-	border-radius: 0 30px 30px 0;
-	padding: 1rem 0;
-
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-
-	position: relative;
-`;
-
-const LogoContainer = styled.div`
-	width: 2.5rem;
-
-	img {
-		width: 100%;
-		height: auto;
-	}
-`;
 
 const SlickBar = styled.ul`
 	color: var(--white);
@@ -96,13 +64,6 @@ const ListItem = styled(NavLink)`
 	}
 `;
 
-const Text = styled.span`
-	width: ${(props) => (props.clicked ? '100%' : '0')};
-	overflow: hidden;
-	margin-left: ${(props) => (props.clicked ? '1.5rem' : '0')};
-	transition: all 0.3s ease;
-`;
-
 const ProfilePicture = styled.div`
 	width: ${(props) => (props.clicked ? '16rem' : '3rem')};
 	height: 3rem;
@@ -128,31 +89,6 @@ const ProfilePicture = styled.div`
 			border: 2px solid var(--grey);
 			padding: 2px;
 			cursor: pointer;
-		}
-	}
-`;
-
-const Name = styled.div`
-	padding: 0 1.5rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-
-	h4 {
-		display: inline-block;
-		font-weight: 500;
-		margin: 0;
-		font-size: 0.9rem;
-	}
-
-	a {
-		font-size: 0.8rem;
-		text-decoration: none;
-		color: var(--grey);
-
-		&:hover {
-			text-decoration: underline;
 		}
 	}
 `;
@@ -192,7 +128,7 @@ const Sidebar = () => {
 	const handleProfileClick = () => setProfileClick(!profileClick);
 
 	return (
-		<Container>
+		<NavContainer>
 			<MenuButton clicked={click} onClick={() => handleClick()}>
 				Click
 			</MenuButton>
@@ -208,7 +144,7 @@ const Sidebar = () => {
 						to="/dashboard"
 					>
 						<img src={Home} alt="Home" />
-						<Text clicked={click}>Home</Text>
+						<TextSpan clicked={click}>Home</TextSpan>
 					</ListItem>
 					<ListItem
 						onClick={() => setClick(false)}
@@ -217,7 +153,7 @@ const Sidebar = () => {
 						to="/dashboard/skills"
 					>
 						<img src={Team} alt="Team" />
-						<Text clicked={click}>Team</Text>
+						<TextSpan clicked={click}>Team</TextSpan>
 					</ListItem>
 					<ListItem
 						onClick={() => setClick(false)}
@@ -226,7 +162,7 @@ const Sidebar = () => {
 						to="/dashboard/achievments"
 					>
 						<img src={Calender} alt="Calender" />
-						<Text clicked={click}>Calender</Text>
+						<TextSpan clicked={click}>Calender</TextSpan>
 					</ListItem>
 					<ListItem
 						onClick={() => setClick(false)}
@@ -235,7 +171,7 @@ const Sidebar = () => {
 						to="/dashboard/education"
 					>
 						<img src={Documents} alt="Documents" />
-						<Text clicked={click}>Documents</Text>
+						<TextSpan clicked={click}>Documents</TextSpan>
 					</ListItem>
 					<ListItem
 						onClick={() => setClick(false)}
@@ -244,7 +180,7 @@ const Sidebar = () => {
 						to="/dashboard/projects"
 					>
 						<img src={Projects} alt="Projects" />
-						<Text clicked={click}>Projects</Text>
+						<TextSpan clicked={click}>Projects</TextSpan>
 					</ListItem>
 				</SlickBar>
 
@@ -265,7 +201,7 @@ const Sidebar = () => {
 					</Details>
 				</ProfilePicture>
 			</SidebarContainer>
-		</Container>
+		</NavContainer>
 	);
 };
 

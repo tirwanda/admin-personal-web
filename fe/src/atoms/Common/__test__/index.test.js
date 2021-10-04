@@ -1,25 +1,7 @@
 import React from 'react';
-import {
-	BoxContainer,
-	FormContainer,
-	Input,
-	MutedLink,
-	BoldLink,
-} from '../index';
+import { Input, MutedLink, BoldLink } from '../index';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-
-test('Should render <BoxContainer /> correct', () => {
-	const container = render(<BoxContainer>test</BoxContainer>);
-	const element = container.getByText('test');
-	expect(element).toBeInTheDocument();
-});
-
-test('Should render <FormContainer /> correct', () => {
-	const container = render(<FormContainer>input</FormContainer>);
-	const element = container.getByText('input');
-	expect(element).toBeInTheDocument();
-});
 
 test('Should render <Input /> username correct', () => {
 	const container = render(<Input placeholder="username" type="text" />);

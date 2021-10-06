@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import qs from 'query-string';
 
-import { Input, MutedLink, BoldLink } from '../../atoms/Common';
+import { MutedLink, BoldLink } from '../../atoms/Common';
 
 import { BoxContainer, FormContainer } from '../../atoms/Container/Container';
 import { SubmitButton } from '../../atoms/Button/Button';
 import { Marginer } from '../../atoms/Marginer';
 import { AccountContext } from '../../context/accountContext';
+import { Input } from '../../atoms/Input/Input';
 
 import { connect } from 'react-redux';
 import {

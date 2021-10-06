@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import { Input, MutedLink, BoldLink } from '../../atoms/Common';
+import { MutedLink, BoldLink } from '../../atoms/Common';
 import { BoxContainer, FormContainer } from '../../atoms/Container/Container';
 import { SubmitButton } from '../../atoms/Button/Button';
 import { Marginer } from '../../atoms/Marginer';
 import { AccountContext } from '../../context/accountContext';
+import { Input } from '../../atoms/Input/Input';
 
 function SignupForm(props) {
 	const { switchToSignin } = useContext(AccountContext);

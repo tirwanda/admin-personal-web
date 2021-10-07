@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const DashboardContainer = styled.div`
+	display: flex;
+	height: 100vh;
+	background: linear-gradient(to bottom right, white 0%, #e6e4ff 70%);
+`;
+
 export const BoxContainer = styled.div`
 	width: 100%;
 	display: flex;

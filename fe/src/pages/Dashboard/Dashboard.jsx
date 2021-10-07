@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { fetchUserData } from '../../api/authenticationService';
 import { Route, Switch, useHistory, useLocation } from 'react-router';
 
+import { DashboardContainer } from '../../atoms/Container/Container';
+
 import Sidebar from '../../organism/Sidebar/Sidebar';
 import Home from '../../template/Home/Home';
 import Projects from '../../template/Projects/Projects';
@@ -10,6 +12,7 @@ import Achievments from '../../template/Achievments/Achievments';
 import Skills from '../../template/Skills/Skills';
 import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
+import Navbar from '../../organism/Navbar/Navbar';
 
 const Section = styled.div`
 	width: 100vw;
@@ -49,7 +52,8 @@ function Dashboard(props) {
 	};
 
 	return (
-		<div className="dashboard">
+		<DashboardContainer>
+			<Navbar />
 			<Sidebar />
 			<Section>
 				<AnimatePresence exitBeforeEnter>
@@ -78,7 +82,7 @@ function Dashboard(props) {
 					</Switch>
 				</AnimatePresence>
 			</Section>
-		</div>
+		</DashboardContainer>
 	);
 }
 

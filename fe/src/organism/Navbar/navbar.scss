@@ -1,0 +1,17 @@
+.navbar {
+	padding: 0 !important;
+
+	&-item {
+		display: flex;
+		align-items: center;
+	}
+
+	&-text {
+		h2 {
+			span {
+				font-weight: 500;
+				color: #484258;
+			}
+		}
+	}
+}

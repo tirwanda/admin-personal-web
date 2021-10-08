@@ -10,24 +10,8 @@ import Projects from '../../template/Projects/Projects';
 import Education from '../../template/Education/Education';
 import Achievments from '../../template/Achievments/Achievments';
 import Skills from '../../template/Skills/Skills';
-import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
-import Navbar from '../../organism/Navbar/Navbar';
-
-const Section = styled.div`
-	width: 100vw;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	h1 {
-		font-size: calc(2rem + 2vw);
-		background: linear-gradient(to right, #803bec 30%, #1b1b1b 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
-`;
+import { Grid } from '@mui/material';
 
 function Dashboard(props) {
 	let history = useHistory();
@@ -53,35 +37,39 @@ function Dashboard(props) {
 
 	return (
 		<DashboardContainer>
-			<Navbar />
-			<Sidebar />
-			<Section>
-				<AnimatePresence exitBeforeEnter>
-					<Switch location={location} key={location.pathname}>
-						<Route exact path="/dashboard" component={Home} />
-						<Route
-							exact
-							path="/dashboard/skills"
-							component={Skills}
-						/>
-						<Route
-							exact
-							path="/dashboard/achievments"
-							component={Achievments}
-						/>
-						<Route
-							exact
-							path="/dashboard/education"
-							component={Education}
-						/>
-						<Route
-							exact
-							path="/dashboard/projects"
-							component={Projects}
-						/>
-					</Switch>
-				</AnimatePresence>
-			</Section>
+			<Grid container>
+				<Grid item lg={1}>
+					<Sidebar />
+				</Grid>
+
+				<Grid item lg={11} sm={11} md={11}>
+					<AnimatePresence exitBeforeEnter>
+						<Switch location={location} key={location.pathname}>
+							<Route exact path="/dashboard" component={Home} />
+							<Route
+								exact
+								path="/dashboard/skills"
+								component={Skills}
+							/>
+							<Route
+								exact
+								path="/dashboard/achievments"
+								component={Achievments}
+							/>
+							<Route
+								exact
+								path="/dashboard/education"
+								component={Education}
+							/>
+							<Route
+								exact
+								path="/dashboard/projects"
+								component={Projects}
+							/>
+						</Switch>
+					</AnimatePresence>
+				</Grid>
+			</Grid>
 		</DashboardContainer>
 	);
 }

@@ -65,7 +65,7 @@ export const FormContainer = styled.div`
 
 export const NavContainer = styled.div`
 	position: fixed;
-
+	margin-top: 0.8rem;
 	.active {
 		border-right: 4px solid var(--white);
 

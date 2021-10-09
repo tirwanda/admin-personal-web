@@ -1,0 +1,46 @@
+.visitor {
+	height: 100%;
+	width: 16rem;
+	background-color: #6100d4;
+	padding: 0.5rem;
+	border-radius: 1rem;
+	color: white;
+	transition: 0.4s ease-in-out;
+
+	&:hover {
+		box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+	}
+
+	&-content {
+		margin: 1rem;
+
+		.chart {
+			display: flex;
+			justify-content: center;
+
+			svg {
+				height: 5rem;
+				width: 4rem;
+			}
+		}
+
+		.visitor-text {
+			text-align: center;
+			font-weight: normal;
+			padding: 0.4rem 0;
+		}
+
+		.visitor-qty {
+			text-align: center;
+			font-weight: 600;
+		}
+
+		.visitor-increase {
+			text-align: center;
+			font-weight: normal;
+			background-color: rgba(0, 0, 0, 0.2);
+			padding: 0.5rem;
+			border-radius: 2rem;
+		}
+	}
+}

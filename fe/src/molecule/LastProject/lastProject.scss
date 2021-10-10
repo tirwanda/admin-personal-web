@@ -1,0 +1,49 @@
+.last-project {
+	height: 70%;
+	background-color: white;
+	margin: 0;
+	padding: 1rem;
+	border-radius: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+		rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+	transition: 0.4 ease-in-out;
+
+	&:hover {
+		box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0.4rem;
+
+		.last-project-thumbnail {
+			img {
+				height: 4rem;
+				width: 4rem;
+				border-radius: 4rem;
+			}
+		}
+
+		.last-project-detail {
+			margin-left: 1rem;
+
+			h3 {
+				font-weight: 500;
+			}
+
+			h5 {
+				text-align: left;
+				font-weight: 300;
+				color: gray;
+			}
+		}
+	}
+
+	h5 {
+		font-size: 0.9rem;
+		text-align: end;
+		color: #6100d4;
+		cursor: pointer;
+	}
+}

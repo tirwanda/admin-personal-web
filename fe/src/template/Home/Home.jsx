@@ -7,6 +7,8 @@ import Navbar from '../../organism/Navbar/Navbar';
 import Earnings from '../../molecule/Visitor/Visitor';
 import Info from '../../molecule/Info/Info';
 import LastProject from '../../molecule/LastProject/LastProject';
+import LastEducation from '../../molecule/LastEducation/LastEducation';
+import About from '../../molecule/About/About';
 
 const HomeComponent = () => {
 	return (
@@ -14,6 +16,7 @@ const HomeComponent = () => {
 			<Grid item lg={12}>
 				<Navbar />
 			</Grid>
+
 			<Grid container spacing={3} className="dashboard-top-section">
 				<Grid item lg={7}>
 					<Grid container>
@@ -26,8 +29,23 @@ const HomeComponent = () => {
 					</Grid>
 				</Grid>
 				<Grid item lg={5} className="dashboard-top-section-project">
-					<h3>Your Projects</h3>
+					<h3>Last Projects</h3>
 					<LastProject />
+				</Grid>
+			</Grid>
+
+			<Grid container spacing={3} className="dashboard-bottom-section">
+				<Grid item lg={7} className="dashboard-bottom-section-left">
+					<div className="last-education-container">
+						<h3>Last Education</h3>
+						<LastEducation />
+					</div>
+				</Grid>
+				<Grid item lg={5} className="dashboard-bottom-section-right">
+					<div className="about-container">
+						<h3>About me</h3>
+						<About />
+					</div>
 				</Grid>
 			</Grid>
 		</Container>

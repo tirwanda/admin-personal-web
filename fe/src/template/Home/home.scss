@@ -13,4 +13,17 @@
 			width: 100%;
 		}
 	}
+
+	&-bottom-section {
+		margin-top: 1rem !important;
+
+		&-left {
+			width: 150% !important;
+		}
+
+		&-right {
+			width: 150% !important;
+			padding-left: 0 !important;
+		}
+	}
 }

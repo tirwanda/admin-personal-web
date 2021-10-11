@@ -1,0 +1,40 @@
+.last-education {
+	width: 37rem;
+	border-radius: 1rem;
+	margin-top: 1rem;
+	background-color: white;
+	height: 140%;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+		rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+	transition: 0.4s ease-in-out;
+
+	&:hover {
+		box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+	}
+
+	&-content {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		margin: 0.4rem;
+		padding: 0.6rem 0.8rem;
+
+		.avatar {
+			img {
+				height: 3.5rem;
+				width: 3.5rem;
+				border-radius: 3.5rem;
+			}
+		}
+
+		.education-detail {
+			padding-left: 0 !important;
+			h4 {
+				font-weight: 500;
+			}
+			h5 {
+				font-weight: 400;
+			}
+		}
+	}
+}

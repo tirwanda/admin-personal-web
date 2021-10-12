@@ -2,6 +2,7 @@ package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
+import com.admin.dashboard.be.repository.UserRepository;
 import com.admin.dashboard.be.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -30,10 +31,16 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/api")
 public class UserResource {
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
+    }
+
+    @GetMapping("user/{username}")
+    public User getUserByUsername(@PathVariable("username") String username) {
+        return  userRepository.findByUsername(username);
     }
 
     @PostMapping("/user/save")

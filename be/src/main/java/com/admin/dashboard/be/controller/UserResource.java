@@ -2,6 +2,7 @@ package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
+import com.admin.dashboard.be.exception.ResourceNotFoundException;
 import com.admin.dashboard.be.repository.UserRepository;
 import com.admin.dashboard.be.service.UserService;
 import com.auth0.jwt.JWT;
@@ -39,7 +40,7 @@ public class UserResource {
     }
 
     @GetMapping("user/{username}")
-    public User getUserByUsername(@PathVariable("username") String username) {
+    public User getUserByUsername(@PathVariable("username") String username) throws ResourceNotFoundException {
         return  userRepository.findByUsername(username);
     }
 

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,12 +17,44 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long userId;
     private String name;
+
+    @Column(
+            nullable = false,
+            unique = true
+    )
     private String username;
     private String password;
+
+    @Column(
+            nullable = false,
+            unique = true
+    )
     private String email;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String about;
+
+    @OneToMany(
+            targetEntity = Project.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "project_id",
+            referencedColumnName = "userId"
+    )
+    private List<Project> projects;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
+
+    public User(String name, String username, String password, String email, ArrayList<Role> roles) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
 }

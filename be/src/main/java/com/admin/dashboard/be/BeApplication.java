@@ -24,30 +24,29 @@ public class BeApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	// @Bean
+//	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
 			userService.saveRole(new Role(null,"ROLE_USER"));
 			userService.saveRole(new Role(null,"ROLE_ADMIN"));
 
 			userService.saveUser(new User(
-					null,
 					"Edho Dwi Tirwanda",
 					"tirwanda",
 					"password",
 					"edhodwitirwanda@gmail.com",
 					new ArrayList<>()));
 
-			userService.saveUser(new User(
-					null,
-					"admin",
-					"admin",
-					"password",
-					"admin@gmail.com",
-					new ArrayList<>()));
+//			userService.saveUser(new User(
+//					null,
+//					"admin",
+//					"admin",
+//					"password",
+//					"admin@gmail.com",
+//					new ArrayList<>()));
 
 			userService.addRoleToUser("tirwanda", "ROLE_USER");
-			userService.addRoleToUser("admin", "ROLE_ADMIN");
+//			userService.addRoleToUser("admin", "ROLE_ADMIN");
 		};
 	}
 }

@@ -17,7 +17,9 @@ export const userLogin = (data) => {
 export const fetchUserData = (authRequest) => {
 	return axios({
 		method: 'GET',
-		url: `${process.env.hostUrl || 'http://localhost:8080'}/api/users`,
+		url: `${
+			process.env.hostUrl || 'http://localhost:8080'
+		}/api/user/${localStorage.getItem('USERNAME')}`,
 		headers: {
 			Authorization: 'Bearer ' + getToken(),
 		},

@@ -18,17 +18,17 @@ function Dashboard(props) {
 	const location = useLocation();
 	const [data, setData] = useState({});
 
-	// React.useEffect(() => {
-	// 	fetchUserData()
-	// 		.then((response) => {
-	// 			setData(response.data);
-	// 			console.log('data', response.data);
-	// 		})
-	// 		.catch((e) => {
-	// 			localStorage.clear();
-	// 			history.push('/');
-	// 		});
-	// }, [history]);
+	React.useEffect(() => {
+		fetchUserData()
+			.then((response) => {
+				setData(response.data);
+				console.log('data', response.data);
+			})
+			.catch((e) => {
+				localStorage.clear();
+				history.push('/');
+			});
+	}, [history]);
 
 	const logOut = () => {
 		localStorage.clear();

@@ -1,10 +1,9 @@
 package com.admin.dashboard.be.repository;
 
-import com.admin.dashboard.be.entity.User;
+import com.admin.dashboard.be.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+public interface TagRepository extends JpaRepository<Tag,Long> {
 }

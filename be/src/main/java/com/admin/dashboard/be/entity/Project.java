@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +15,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Project {
+public class Project implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long projectId;
     private String title;
 
     @Lob
@@ -26,10 +32,9 @@ public class Project {
     @ManyToMany
     @JoinTable (
             name = "project_tech_map",
-            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tech_id", referencedColumnName = "techId")
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
-    @Column(name = "tech_list")
     private List<Tech> techList = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)

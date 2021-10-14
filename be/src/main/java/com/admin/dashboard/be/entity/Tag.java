@@ -8,13 +8,19 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Tag {
+public class Tag implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     private Long tagId;
     private String name;

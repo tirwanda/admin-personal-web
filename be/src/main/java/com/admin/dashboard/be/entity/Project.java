@@ -23,6 +23,7 @@ public class Project implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectId;
+    @Column(unique = true)
     private String title;
 
     @Lob
@@ -43,4 +44,5 @@ public class Project implements Serializable {
 
     private String github;
     private String demo;
+
 }

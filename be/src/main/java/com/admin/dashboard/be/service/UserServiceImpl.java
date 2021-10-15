@@ -1,7 +1,9 @@
 package com.admin.dashboard.be.service;
 
+import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
+import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.RoleRepository;
 import com.admin.dashboard.be.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -80,5 +84,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> getUsers() {
         log.info("Fetching all user");
         return userRepository.findAll();
+    }
+
+    @Override
+    public void saveProjectToUser(Long projectId, String username) {
+        User user = userRepository.findByUsername(username);
+        Project project = projectRepository.findProjectByProjectId(projectId);
+
+        user.getProjects().add(project);
     }
 }

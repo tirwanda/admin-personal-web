@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,17 +24,8 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void saveProjectToUser(String projectTitle, String username) {
-        User user = userRepository.findByUsername(username);
-        Project project = projectRepository.findProjectByTitle(projectTitle);
-
-        user.getProjects().add(project);
-    }
-
-    @Override
-    public void deleteProject(String projectTitle) {
-        Project project = projectRepository.findProjectByTitle(projectTitle);
-        projectRepository.deleteById(project.getProjectId());
+    public void deleteProject(Long projectId) {
+        projectRepository.deleteById(projectId);
     }
 
     @Override
@@ -48,7 +40,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Project getProject(String projectTitle) {
-        return projectRepository.findProjectByTitle(projectTitle);
+    public Project getProject(Long projectId) {
+        return projectRepository.findProjectByProjectId(projectId);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ public class Tech implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long techId;
+
+    @Column(unique = true, nullable = false)
+    @NotEmpty(message = "Tech name is required")
     private String name;
 
     @ManyToMany(mappedBy = "techList")

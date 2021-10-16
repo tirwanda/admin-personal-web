@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,7 +24,9 @@ public class Project implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectId;
+
     @Column(unique = true)
+    @NotEmpty(message = "Title is required")
     private String title;
 
     @Lob
@@ -44,5 +47,4 @@ public class Project implements Serializable {
 
     private String github;
     private String demo;
-
 }

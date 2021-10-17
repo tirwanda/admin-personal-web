@@ -1,12 +1,17 @@
 package com.admin.dashboard.be.controller;
 
+import com.admin.dashboard.be.dto.ResponseData;
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.service.ProjectServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +20,21 @@ public class ProjectController {
     private final ProjectServiceImpl projectService;
 
     @PostMapping("/project")
-    public Project saveProject(@RequestBody Project project) {
-        return projectService.saveProject(project);
+    public ResponseEntity<ResponseData<Project>> saveProject(@Valid @RequestBody Project project, Errors errors) {
+        ResponseData<Project> responseData = new ResponseData<>();
+
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
+                responseData.getMessages().add(error.getDefaultMessage());
+            }
+            responseData.setStatus(false);
+            responseData.setPayload(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+        }
+
+        responseData.setStatus(true);
+        responseData.setPayload(projectService.saveProject(project));
+        return ResponseEntity.ok(responseData);
     }
 
     @GetMapping("/projects")
@@ -25,13 +43,26 @@ public class ProjectController {
     }
 
     @GetMapping("/project/{id}")
-    public Project findProjectByTitle(@PathVariable("id") Long projectId) {
+    public Project findProjectById(@PathVariable("id") Long projectId) {
         return projectService.getProject(projectId);
     }
 
     @PutMapping("/project")
-    public Project updateProject(@RequestBody Project project) {
-        return projectService.saveProject(project);
+    public ResponseEntity<ResponseData<Project>> updateProject(@Valid @RequestBody Project project, Errors errors) {
+        ResponseData<Project> responseData = new ResponseData<>();
+
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
+                responseData.getMessages().add(error.getDefaultMessage());
+            }
+            responseData.setStatus(false);
+            responseData.setPayload(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+        }
+
+        responseData.setStatus(true);
+        responseData.setPayload(projectService.saveProject(project));
+        return ResponseEntity.ok(responseData);
     }
 
     @DeleteMapping("/project/{id}")

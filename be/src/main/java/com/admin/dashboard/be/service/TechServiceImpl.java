@@ -6,7 +6,6 @@ import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.TechRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.List;

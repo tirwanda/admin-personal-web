@@ -1,4 +1,10 @@
-import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGOUT } from '../types';
+import {
+	AUTH_REQ,
+	AUTH_SUCCESS,
+	AUTH_FAILURE,
+	AUTH_LOGOUT,
+	GET_USER_DATA,
+} from '../types';
 
 const initialState = {
 	user: {},
@@ -41,6 +47,13 @@ const auth = (state = initialState, action) => {
 			return {
 				...state,
 				isAuthenticated: false,
+			};
+
+		case GET_USER_DATA:
+			const user = action.payload;
+			return {
+				...state,
+				user: user,
 			};
 
 		default:

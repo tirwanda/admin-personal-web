@@ -1,4 +1,10 @@
-import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGOUT } from './types';
+import {
+	AUTH_REQ,
+	AUTH_SUCCESS,
+	AUTH_FAILURE,
+	AUTH_LOGOUT,
+	GET_USER_DATA,
+} from './types';
 
 export const authenticate = () => {
 	return {
@@ -11,7 +17,7 @@ export const authSuccess = (content) => {
 	localStorage.setItem('USERNAME', content.username);
 	return {
 		type: AUTH_SUCCESS,
-		payload: content,
+		// payload: content,
 	};
 };
 
@@ -26,5 +32,12 @@ export const authLogout = () => {
 	localStorage.clear();
 	return {
 		type: AUTH_LOGOUT,
+	};
+};
+
+export const authGetUserData = (userData) => {
+	return {
+		type: GET_USER_DATA,
+		payload: userData,
 	};
 };

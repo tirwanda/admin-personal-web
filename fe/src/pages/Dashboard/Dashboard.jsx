@@ -13,6 +13,9 @@ import Skills from '../../template/Skills/Skills';
 import { AnimatePresence } from 'framer-motion';
 import { Grid } from '@mui/material';
 
+import { connect } from 'react-redux';
+import { authGetUserData } from '../../redux/authActions';
+
 function Dashboard(props) {
 	let history = useHistory();
 	const location = useLocation();
@@ -22,6 +25,7 @@ function Dashboard(props) {
 		fetchUserData()
 			.then((response) => {
 				setData(response.data);
+				// props.getUserData(response.data);
 				console.log('data', response.data);
 			})
 			.catch((e) => {
@@ -34,44 +38,63 @@ function Dashboard(props) {
 		localStorage.clear();
 		history.push('/');
 	};
-
+	props.getUserData(data);
 	return (
 		<DashboardContainer>
-			<Grid container>
-				<Grid item lg={1}>
-					<Sidebar />
-				</Grid>
+			{props.user && (
+				<Grid container>
+					<Grid item lg={1}>
+						<Sidebar />
+					</Grid>
 
-				<Grid item lg={11} sm={11} md={11}>
-					<AnimatePresence exitBeforeEnter>
-						<Switch location={location} key={location.pathname}>
-							<Route exact path="/dashboard" component={Home} />
-							<Route
-								exact
-								path="/dashboard/skills"
-								component={Skills}
-							/>
-							<Route
-								exact
-								path="/dashboard/achievments"
-								component={Achievments}
-							/>
-							<Route
-								exact
-								path="/dashboard/education"
-								component={Education}
-							/>
-							<Route
-								exact
-								path="/dashboard/projects"
-								component={Projects}
-							/>
-						</Switch>
-					</AnimatePresence>
+					<Grid item lg={11} sm={11} md={11}>
+						<AnimatePresence exitBeforeEnter>
+							<Switch location={location} key={location.pathname}>
+								<Route
+									exact
+									path="/dashboard"
+									component={Home}
+								/>
+								<Route
+									exact
+									path="/dashboard/skills"
+									component={Skills}
+								/>
+								<Route
+									exact
+									path="/dashboard/achievments"
+									component={Achievments}
+								/>
+								<Route
+									exact
+									path="/dashboard/education"
+									component={Education}
+								/>
+								<Route
+									exact
+									path="/dashboard/projects"
+									component={Projects}
+								/>
+							</Switch>
+						</AnimatePresence>
+					</Grid>
 				</Grid>
-			</Grid>
+			)}
 		</DashboardContainer>
 	);
 }
 
-export default Dashboard;
+const mapStateToProps = ({ auth }) => {
+	console.log('from dashboard: ', auth);
+	return {
+		user: auth.user,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getUserData: (data) => dispatch(authGetUserData(data)),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

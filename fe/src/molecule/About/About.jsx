@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './about.scss';
 
 import Profile from '../../assets/images/profile.jpg';
+import ProfileModal from '../../organism/Modal/ProfileModal';
 import Badge from '../../atoms/Badge/Badge';
 
 import { connect } from 'react-redux';
 
 const About = ({ user }) => {
+	const [showModal, setShowModal] = useState(false);
+
 	return (
 		<div className="home-about">
+			<ProfileModal showModal={showModal} setShowModal={setShowModal} />
 			<div className="home-about-detail">
 				<div className="home-about-detail-info">
 					<div className="avatar">
@@ -18,7 +22,13 @@ const About = ({ user }) => {
 						<h3>{user.name}</h3>
 						<h5>{user.title}</h5>
 					</div>
-					<Badge content="Back-End" />
+					{/* <Badge content="Update" /> */}
+					<button
+						onClick={() => setShowModal(true)}
+						className="edit-button"
+					>
+						Update
+					</button>
 				</div>
 				<div className="home-about-detail-desc">
 					<p>{user.about}</p>

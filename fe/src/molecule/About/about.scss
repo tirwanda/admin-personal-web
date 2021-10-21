@@ -20,6 +20,8 @@
 		&-info {
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
+			width: 100%;
 
 			.avatar {
 				margin-right: 1rem;
@@ -27,6 +29,19 @@
 				img {
 					height: 5rem;
 					border-radius: 5rem;
+				}
+			}
+
+			.edit-button {
+				padding: 0.5rem 1rem;
+				border: none;
+				border-radius: 1rem;
+				background-color: #6100d4;
+				color: white;
+				font-weight: 500;
+
+				&:hover {
+					cursor: pointer;
 				}
 			}
 

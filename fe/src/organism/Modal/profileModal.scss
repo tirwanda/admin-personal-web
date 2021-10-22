@@ -8,12 +8,48 @@
 	z-index: 1;
 
 	.modal {
-		max-width: 400px;
+		max-width: 1000px;
 		margin: auto;
 		padding: 40px 20px;
 		background: white;
 		border-radius: 10px;
-		text-align: center;
+
+		&-title {
+			font-size: 1.5rem;
+			line-height: 1.75rem;
+			font-weight: bold;
+			color: #374151;
+			padding-bottom: 11px;
+			border-bottom: 1px solid #d7dbdf;
+			margin-bottom: 1rem;
+		}
+
+		&-avatar {
+			justify-content: center;
+			align-items: center;
+
+			img {
+				height: 10rem;
+				border-radius: 50%;
+			}
+
+			#file {
+				display: none;
+			}
+
+			#button-upload {
+				height: 40px;
+				width: auto;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				transform: translateX(-50%);
+				background: rgba(0, 0, 0, 0.7);
+				color: white;
+				line-height: 30px;
+				font-size: 1rem;
+			}
+		}
 
 		&-button {
 			display: flex;

@@ -2,6 +2,9 @@ import React from 'react';
 import './profileModal.scss';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Grid } from '@mui/material';
+
+import Profile from '../../assets/images/profile.jpg';
 
 const backDrop = {
 	visible: { opacity: 1 },
@@ -31,15 +34,32 @@ const ProfileModal = ({ showModal, setShowModal }) => {
 					variants={backDrop}
 					animate="visible"
 					initial="hidden"
+					exit="hidden"
 				>
 					<motion.div className="modal" variants={modal}>
-						<p>Edit Profile</p>
+						<h1 className="modal-title">Edit Profile</h1>
+						<Grid container spacing={3}>
+							<Grid item lg={6} className="modal-avatar">
+								<img src={Profile} alt="Avatar" id="photo" />
+								<input type="file" id="file" />
+								<label htmlFor="file" id="button-upload">
+									Choose Photo
+								</label>
+							</Grid>
+							<Grid item lg={6}></Grid>
+						</Grid>
 						<Link to="/dashboard">
 							<div className="modal-button">
-								<button className="modal-button-close">
+								<button
+									onClick={() => setShowModal(false)}
+									className="modal-button-close"
+								>
 									Close
 								</button>
-								<button className="modal-button-save">
+								<button
+									onClick={() => setShowModal(false)}
+									className="modal-button-save"
+								>
 									Save
 								</button>
 							</div>

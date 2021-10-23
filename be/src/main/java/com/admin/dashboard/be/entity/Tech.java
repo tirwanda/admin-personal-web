@@ -30,4 +30,6 @@ public class Tech implements Serializable {
 
     @ManyToMany(mappedBy = "techList")
     private List<Project> projects = new ArrayList<>();
+
+    private String imageURL;
 }

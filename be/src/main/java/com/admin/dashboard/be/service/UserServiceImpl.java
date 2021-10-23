@@ -14,12 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -84,6 +84,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> getUsers() {
         log.info("Fetching all user");
         return userRepository.findAll();
+    }
+
+    @Override
+    public void uploadUserProfileImage(Long id, MultipartFile file) {
+        // 1. Check if image is not empty
+        // 2. If file is an image
+        // 3. The user exists in our database
+        // 4. Grab some metadata from file if any
+        // 5. store the image in database
     }
 
     @Override

@@ -24,7 +24,10 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+
     private String name;
+
+    private String title;
 
     @Column(
             nullable = false,
@@ -61,11 +64,6 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    public User(String name, String username, String password, String email, ArrayList<Role> roles) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.roles = roles;
-    }
+    @Column(name = "image_profile")
+    private String userProfileLink;
 }

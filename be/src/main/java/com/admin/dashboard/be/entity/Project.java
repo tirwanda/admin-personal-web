@@ -47,4 +47,8 @@ public class Project implements Serializable {
 
     private String github;
     private String demo;
+
+    @OneToMany(targetEntity = ProjectImage.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Project_Image_FK", referencedColumnName = "projectId")
+    private List<ProjectImage> projectImageList;
 }

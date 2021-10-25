@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './profileModal.scss';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Grid } from '@mui/material';
-
-import { Publish } from '@mui/icons-material';
 
 import Profile from '../../assets/images/profile.jpg';
+import { updateProfile } from '../../api/updateProfileService';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import { connect } from 'react-redux';
+import qs from 'query-string';
+
+import { Grid } from '@mui/material';
+import { Publish } from '@mui/icons-material';
 import { TextField } from '@material-ui/core';
 
 const backDrop = {
@@ -27,7 +31,41 @@ const modal = {
 	},
 };
 
-const ProfileModal = ({ showModal, setShowModal }) => {
+const ProfileModal = ({ showModal, setShowModal, user }) => {
+	const [value, setValue] = useState(user);
+	const handleInputChange = (event) => {
+		setValue({
+			...value,
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	const handleFormUpdate = (event) => {
+		event.preventDefault();
+
+		updateProfile(qs.stringify(value))
+			.then((res) => {
+				console.log('Success Update Data: ', res);
+				setShowModal(false);
+			})
+			.catch((err) => {
+				console.log('Error Message: ', err);
+				setShowModal(false);
+			});
+	};
+
+	useEffect(() => {
+		if (user) {
+			setValue({
+				userId: user.userId,
+				name: user.name,
+				title: user.title,
+				about: user.about,
+			});
+		}
+	}, [user]);
+
+	// console.log('value', value);
 	return (
 		<AnimatePresence exitBeforeEnter>
 			{showModal && (
@@ -55,7 +93,8 @@ const ProfileModal = ({ showModal, setShowModal }) => {
 											fullWidth
 											name="name"
 											label="Name"
-											defaultValue="Test"
+											defaultValue={user.name}
+											onChange={handleInputChange}
 										/>
 									</Grid>
 									<Grid item xs={12} sm={6}>
@@ -63,6 +102,7 @@ const ProfileModal = ({ showModal, setShowModal }) => {
 											fullWidth
 											name="title"
 											label="Title"
+											defaultValue={user.title}
 										/>
 									</Grid>
 									<Grid item xs={12}>
@@ -70,8 +110,9 @@ const ProfileModal = ({ showModal, setShowModal }) => {
 											multiline
 											rows={5}
 											fullWidth
-											name="description"
+											name="about"
 											label="Description"
+											defaultValue={user.about}
 										/>
 									</Grid>
 								</Grid>
@@ -85,7 +126,7 @@ const ProfileModal = ({ showModal, setShowModal }) => {
 								Close
 							</button>
 							<button
-								onClick={() => setShowModal(false)}
+								onClick={handleFormUpdate}
 								className="modal-button-save"
 							>
 								Save
@@ -98,4 +139,9 @@ const ProfileModal = ({ showModal, setShowModal }) => {
 	);
 };
 
-export default ProfileModal;
+const mapStateToProps = ({ auth }) => {
+	return {
+		user: auth.user,
+	};
+};
+export default connect(mapStateToProps)(ProfileModal);

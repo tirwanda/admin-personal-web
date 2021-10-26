@@ -6,7 +6,6 @@ import { updateProfile } from '../../api/updateProfileService';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { connect } from 'react-redux';
-import qs from 'query-string';
 
 import { Grid } from '@mui/material';
 import { Publish } from '@mui/icons-material';
@@ -40,13 +39,16 @@ const ProfileModal = ({ showModal, setShowModal, user }) => {
 		});
 	};
 
+	const reload = () => window.location.reload();
+
 	const handleFormUpdate = (event) => {
 		event.preventDefault();
 
-		updateProfile(qs.stringify(value))
+		updateProfile(value)
 			.then((res) => {
 				console.log('Success Update Data: ', res);
 				setShowModal(false);
+				reload();
 			})
 			.catch((err) => {
 				console.log('Error Message: ', err);
@@ -65,7 +67,7 @@ const ProfileModal = ({ showModal, setShowModal, user }) => {
 		}
 	}, [user]);
 
-	// console.log('value', value);
+	console.log('value', value);
 	return (
 		<AnimatePresence exitBeforeEnter>
 			{showModal && (
@@ -103,6 +105,7 @@ const ProfileModal = ({ showModal, setShowModal, user }) => {
 											name="title"
 											label="Title"
 											defaultValue={user.title}
+											onChange={handleInputChange}
 										/>
 									</Grid>
 									<Grid item xs={12}>
@@ -113,6 +116,7 @@ const ProfileModal = ({ showModal, setShowModal, user }) => {
 											name="about"
 											label="Description"
 											defaultValue={user.about}
+											onChange={handleInputChange}
 										/>
 									</Grid>
 								</Grid>

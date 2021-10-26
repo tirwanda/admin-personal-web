@@ -60,6 +60,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User updateUser(User user) {
+        User userUpdate = userRepository.findById(user.getUserId()).get();
+        userUpdate.setName(user.getName());
+        userUpdate.setTitle(user.getTitle());
+        userUpdate.setAbout(user.getAbout());
+
+        return userRepository.save(userUpdate);
+    }
+
+    @Override
     public Role saveRole(Role role) {
         log.info("Saving role {} to database", role.getName());
         return roleRepository.save(role);

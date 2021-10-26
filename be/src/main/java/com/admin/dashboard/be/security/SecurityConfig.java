@@ -23,8 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -47,8 +46,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/api/login", "/api/token/refresh/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/**").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(PUT, "/api/user/**").hasAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(POST, "/api/user/**").hasAuthority("ROLE_USER");
+//        http.authorizeRequests().antMatchers(POST, "/api/**").hasAuthority("ROLE_USER");
+//        http.authorizeRequests().antMatchers(PUT, "/api/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
@@ -79,7 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("PUT", "DELETE",
+                        "GET", "POST");;
             }
         };
     }

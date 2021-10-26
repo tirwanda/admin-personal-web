@@ -6,21 +6,19 @@ const getToken = () => {
 
 const config = {
 	headers: {
-		'Content-Type': 'application/x-www-form-urlencoded',
-		Authorization: `Bearer ${getToken()}`,
+		'Content-Type': 'application/json',
+		Authorization: 'Bearer ' + getToken(),
 	},
 };
 
 export const updateProfile = (data) => {
-	// axios.put(`http://localhost:8080/api/user/update`, data, config);
+	// return axios.put(`http://localhost:8080/api/user/update`, data, config);
 	return axios({
 		method: 'PUT',
 		url: `${
 			process.env.hostUrl || 'http://localhost:8080'
 		}/api/user/update`,
-		data: data,
-		headers: {
-			Authorization: 'Bearer ' + getToken(),
-		},
+		data,
+		config,
 	});
 };

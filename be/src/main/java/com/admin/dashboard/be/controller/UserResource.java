@@ -1,5 +1,6 @@
 package com.admin.dashboard.be.controller;
 
+import com.admin.dashboard.be.dto.ResponseData;
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.exception.ResourceNotFoundException;
@@ -12,7 +13,10 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,6 +31,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -65,6 +70,15 @@ public class UserResource {
     public ResponseEntity<?> saveRoleToUser(@RequestBody RoleToUserForm roleToUserForm) {
         userService.addRoleToUser(roleToUserForm.getUsername(), roleToUserForm.getRoleName());
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/user/update")
+    public ResponseEntity<ResponseData<User>> updateUser(@RequestBody User user) {
+        ResponseData<User> responseData = new ResponseData<>();
+
+        responseData.setStatus(true);
+        responseData.setPayload(userService.updateUser(user));
+        return ResponseEntity.ok(responseData);
     }
 
     @GetMapping("token/refresh")

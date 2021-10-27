@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './profileModal.scss';
 
+import { fetchUserData } from '../../api/authenticationService';
 import Profile from '../../assets/images/profile.jpg';
 import { updateProfile } from '../../api/updateProfileService';
 
@@ -10,6 +11,7 @@ import { connect } from 'react-redux';
 import { Grid } from '@mui/material';
 import { Publish } from '@mui/icons-material';
 import { TextField } from '@material-ui/core';
+import { updateUserData } from '../../redux/authActions';
 
 const backDrop = {
 	visible: { opacity: 1 },
@@ -30,7 +32,7 @@ const modal = {
 	},
 };
 
-const ProfileModal = ({ showModal, setShowModal, user }) => {
+const ProfileModal = ({ showModal, setShowModal, user, updateUserData }) => {
 	const [value, setValue] = useState(user);
 	const handleInputChange = (event) => {
 		setValue({
@@ -46,9 +48,10 @@ const ProfileModal = ({ showModal, setShowModal, user }) => {
 
 		updateProfile(value)
 			.then((res) => {
-				console.log('Success Update Data: ', res);
+				updateUserData(res.data);
 				setShowModal(false);
 				reload();
+				console.log('Success Update Data: ', user);
 			})
 			.catch((err) => {
 				console.log('Error Message: ', err);
@@ -58,12 +61,7 @@ const ProfileModal = ({ showModal, setShowModal, user }) => {
 
 	useEffect(() => {
 		if (user) {
-			setValue({
-				userId: user.userId,
-				name: user.name,
-				title: user.title,
-				about: user.about,
-			});
+			setValue(user);
 		}
 	}, [user]);
 
@@ -148,4 +146,10 @@ const mapStateToProps = ({ auth }) => {
 		user: auth.user,
 	};
 };
-export default connect(mapStateToProps)(ProfileModal);
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateUserData: (data) => dispatch(updateUserData(data)),
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileModal);

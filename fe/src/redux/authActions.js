@@ -4,6 +4,7 @@ import {
 	AUTH_FAILURE,
 	AUTH_LOGOUT,
 	GET_USER_DATA,
+	UPDATE_USER_DATA,
 } from './types';
 
 export const authenticate = () => {
@@ -39,5 +40,12 @@ export const authGetUserData = (userData) => {
 	return {
 		type: GET_USER_DATA,
 		payload: userData,
+	};
+};
+
+export const updateUserData = (data) => {
+	return {
+		type: UPDATE_USER_DATA,
+		payload: data,
 	};
 };

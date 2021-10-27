@@ -4,6 +4,7 @@ import {
 	AUTH_FAILURE,
 	AUTH_LOGOUT,
 	GET_USER_DATA,
+	UPDATE_USER_DATA,
 } from '../types';
 
 const initialState = {
@@ -11,7 +12,6 @@ const initialState = {
 	error: '',
 	loading: false,
 	isAuthenticated: false,
-	// token: null
 };
 
 // Reducer
@@ -54,6 +54,13 @@ const auth = (state = initialState, action) => {
 			return {
 				...state,
 				user: user,
+			};
+
+		case UPDATE_USER_DATA:
+			const userUpdate = action.payload;
+			return {
+				...state,
+				user: userUpdate,
 			};
 
 		default:

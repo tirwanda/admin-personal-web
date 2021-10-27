@@ -38,7 +38,9 @@ function Dashboard(props) {
 		localStorage.clear();
 		history.push('/');
 	};
+
 	props.getUserData(data);
+
 	return (
 		<DashboardContainer>
 			{props.user && (

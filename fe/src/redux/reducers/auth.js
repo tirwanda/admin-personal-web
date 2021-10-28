@@ -58,6 +58,7 @@ const auth = (state = initialState, action) => {
 
 		case UPDATE_USER_DATA:
 			const userUpdate = action.payload;
+			console.log('From Reducer ', userUpdate);
 			return {
 				...state,
 				user: userUpdate,

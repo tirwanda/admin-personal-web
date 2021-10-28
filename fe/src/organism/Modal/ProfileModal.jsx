@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './profileModal.scss';
 
 import { fetchUserData } from '../../api/authenticationService';
@@ -7,6 +7,7 @@ import { updateProfile } from '../../api/updateProfileService';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { connect } from 'react-redux';
+import { useDropzone } from 'react-dropzone';
 
 import { Grid } from '@mui/material';
 import { Publish } from '@mui/icons-material';
@@ -43,15 +44,37 @@ const ProfileModal = ({ showModal, setShowModal, user, updateUserData }) => {
 
 	const reload = () => window.location.reload();
 
+	function Dropzone() {
+		const onDrop = useCallback((acceptedFiles) => {
+			const file = acceptedFiles[0];
+			console.log(file);
+		}, []);
+		const { getRootProps, getInputProps, isDragActive } = useDropzone({
+			onDrop,
+		});
+
+		return (
+			<div {...getRootProps()}>
+				<input {...getInputProps()} />
+				{isDragActive ? (
+					<p>Drop the image here ...</p>
+				) : (
+					<p>
+						<Publish />
+					</p>
+				)}
+			</div>
+		);
+	}
+
 	const handleFormUpdate = (event) => {
 		event.preventDefault();
 
 		updateProfile(value)
 			.then((res) => {
-				updateUserData(res.data);
+				updateUserData(res.data.payload);
 				setShowModal(false);
 				reload();
-				console.log('Success Update Data: ', user);
 			})
 			.catch((err) => {
 				console.log('Error Message: ', err);
@@ -81,10 +104,11 @@ const ProfileModal = ({ showModal, setShowModal, user, updateUserData }) => {
 						<Grid container spacing={3}>
 							<Grid item lg={6} className="modal-avatar">
 								<img src={Profile} alt="Avatar" id="photo" />
-								<label htmlFor="file" id="button-upload">
+								{/* <label htmlFor="file" id="button-upload">
 									<Publish />
 								</label>
-								<input type="file" id="file" />
+							<input type="file" id="file" /> */}
+								<Dropzone />
 							</Grid>
 							<Grid item lg={6} className="modal-form">
 								<Grid container spacing={2}>

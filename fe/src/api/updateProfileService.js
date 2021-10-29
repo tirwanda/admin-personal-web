@@ -22,3 +22,17 @@ export const updateProfile = (data) => {
 		config,
 	});
 };
+
+export const uploadImage = (data, userId) => {
+	return axios({
+		method: 'POST',
+		url: `${
+			process.env.hostUrl || 'http://localhost:8080'
+		}/api/upload/image/${userId}`,
+		data,
+		headers: {
+			'Content-Type': 'multipart/form-data',
+			Authorization: 'Bearer ' + getToken(),
+		},
+	});
+};

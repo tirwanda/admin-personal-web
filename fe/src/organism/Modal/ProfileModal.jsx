@@ -3,7 +3,7 @@ import './profileModal.scss';
 
 import { fetchUserData } from '../../api/authenticationService';
 import Profile from '../../assets/images/profile.jpg';
-import { updateProfile } from '../../api/updateProfileService';
+import { updateProfile, uploadImage } from '../../api/updateProfileService';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { connect } from 'react-redux';
@@ -47,7 +47,15 @@ const ProfileModal = ({ showModal, setShowModal, user, updateUserData }) => {
 	function Dropzone() {
 		const onDrop = useCallback((acceptedFiles) => {
 			const file = acceptedFiles[0];
-			console.log(file);
+			const formData = new FormData();
+			formData.append('file', file);
+			uploadImage(formData, value.userId)
+				.then(() => {
+					console.log('file uploaded successfuly');
+				})
+				.catch((err) => {
+					console.log('error message: ', err);
+				});
 		}, []);
 		const { getRootProps, getInputProps, isDragActive } = useDropzone({
 			onDrop,
@@ -104,10 +112,6 @@ const ProfileModal = ({ showModal, setShowModal, user, updateUserData }) => {
 						<Grid container spacing={3}>
 							<Grid item lg={6} className="modal-avatar">
 								<img src={Profile} alt="Avatar" id="photo" />
-								{/* <label htmlFor="file" id="button-upload">
-									<Publish />
-								</label>
-							<input type="file" id="file" /> */}
 								<Dropzone />
 							</Grid>
 							<Grid item lg={6} className="modal-form">

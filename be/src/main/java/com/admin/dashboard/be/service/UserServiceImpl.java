@@ -1,13 +1,17 @@
 package com.admin.dashboard.be.service;
 
+import com.admin.dashboard.be.entity.ProfileImage;
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
+import com.admin.dashboard.be.repository.ProfileImageRepository;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.RoleRepository;
 import com.admin.dashboard.be.repository.UserRepository;
+import com.admin.dashboard.be.wrappers.ProfileImageWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.entity.ContentType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,10 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.AbstractDocument;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProfileImageRepository profileImageRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -97,13 +101,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void uploadUserProfileImage(Long id, MultipartFile file) {
-        // 1. Check if image is not empty
-        // 2. If file is an image
-        // 3. The user exists in our database
-        // 4. Grab some metadata from file if any
-        // 5. store the image in database
+    public ProfileImage uploadUserProfileImage(ProfileImageWrapper profileImageWrapper) {
+        ProfileImage profileImage = new ProfileImage();
+        profileImage.setUser(userRepository.findById(profileImageWrapper.getId()).get());
+        profileImage.setContentType(profileImageWrapper.getContentType());
+        profileImage.setBase64(profileImageWrapper.getBase64());
+        return profileImageRepository.save(profileImage);
     }
+
 
     @Override
     public void saveProjectToUser(Long projectId, String username) {

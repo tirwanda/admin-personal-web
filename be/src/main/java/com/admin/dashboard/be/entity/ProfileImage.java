@@ -4,25 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class ProjectImage implements Serializable {
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProfileImage implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long profileImageId;
 
-    private String imageURL;
+    @OneToOne
+    private User user;
+
+    @Lob
+    private String base64;
+
+    private String contentType;
 }

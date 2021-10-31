@@ -92,10 +92,11 @@ public class UserResource {
 //            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
 //            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseData<ProfileImage> updateImage(@RequestBody ProfileImageWrapper param){
+    public ResponseData<User> updateImage(@PathVariable("userId") Long userId,
+                                          @RequestBody ProfileImageWrapper param){
         try {
-            ProfileImage profileImage = userService.uploadUserProfileImage(param);
-            return responseDataGenerator.successResponse(profileImage, "Success Upload Image");
+            User user = userService.uploadUserProfileImage(userId, param);
+            return responseDataGenerator.successResponse(user, "Success Upload Image");
         } catch (Exception e) {
             return responseDataGenerator.failedResponse(e.getMessage());
         }

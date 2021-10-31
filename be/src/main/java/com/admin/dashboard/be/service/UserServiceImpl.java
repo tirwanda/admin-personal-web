@@ -101,12 +101,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public ProfileImage uploadUserProfileImage(ProfileImageWrapper profileImageWrapper) {
+    public User uploadUserProfileImage(Long userId, ProfileImageWrapper profileImageWrapper) {
         ProfileImage profileImage = new ProfileImage();
-        profileImage.setUser(userRepository.findById(profileImageWrapper.getId()).get());
+        User user = userRepository.findById(userId).get();
+
         profileImage.setContentType(profileImageWrapper.getContentType());
         profileImage.setBase64(profileImageWrapper.getBase64());
-        return profileImageRepository.save(profileImage);
+        profileImageRepository.save(profileImage);
+        user.setProfileImage(profileImage);
+        return userRepository.save(user);
     }
 
 

@@ -10,7 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileImageWrapper {
-    private Long id;
+    private Long userId;
     private String contentType;
     private String base64;
 }

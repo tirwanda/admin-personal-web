@@ -20,11 +20,11 @@ public class ProfileImage implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long profileImageId;
 
-    @OneToOne
-    private User user;
-
     @Lob
     private String base64;
 
     private String contentType;
+
+    @OneToOne(mappedBy = "profileImage")
+    private User user;
 }

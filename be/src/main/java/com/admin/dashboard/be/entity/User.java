@@ -64,6 +64,10 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    @Column(name = "image_profile")
-    private String userProfileLink;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "profile_image_id",
+            referencedColumnName = "profileImageId"
+    )
+    private ProfileImage profileImage;
 }

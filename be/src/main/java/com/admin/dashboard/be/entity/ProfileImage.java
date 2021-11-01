@@ -25,6 +25,6 @@ public class ProfileImage implements Serializable {
 
     private String contentType;
 
-    @OneToOne(mappedBy = "profileImage")
-    private User user;
+//    @OneToOne(mappedBy = "profileImage")
+//    private User user;
 }

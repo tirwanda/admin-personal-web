@@ -16,9 +16,11 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.File;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -92,13 +99,29 @@ public class UserResource {
 //            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
 //            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseData<User> updateImage(@PathVariable("userId") Long userId,
-                                          @RequestBody ProfileImageWrapper param){
-        try {
-            User user = userService.uploadUserProfileImage(userId, param);
-            return responseDataGenerator.successResponse(user, "Success Upload Image");
-        } catch (Exception e) {
-            return responseDataGenerator.failedResponse(e.getMessage());
+    public ResponseEntity<ResponseData<User>> updateImage(@PathVariable("userId") Long userId,
+                                          @RequestParam("fileImage") MultipartFile multipartFile)
+            throws IOException {
+        ResponseData<User> responseData = new ResponseData<>();
+        User user = userRepository.findById(userId).get();
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+        user.setProfileImage(fileName);
+        String uploadDir = "/user/profile/" + user.getUserId();
+        Path uploadPath = Paths.get(uploadDir);
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()){
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            responseData.setStatus(true);
+            responseData.setPayload(userService.uploadUserProfileImage(user));
+            return ResponseEntity.ok(responseData);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName);
         }
     }
 

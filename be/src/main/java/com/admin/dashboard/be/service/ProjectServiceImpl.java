@@ -1,6 +1,7 @@
 package com.admin.dashboard.be.service;
 
 import com.admin.dashboard.be.entity.Project;
+import com.admin.dashboard.be.entity.Tag;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.UserRepository;
@@ -28,8 +29,15 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public List<Project> getProjectsByUser(String username) {
-        User user = userRepository.findByUsername(username);
+    public void addProjectToUser(Long userId, Long projectId) {
+        User user = userRepository.findById(userId).get();
+        Project project = projectRepository.findById(projectId).get();
+        user.getProjects().add(project);
+    }
+
+    @Override
+    public List<Project> getProjectsByUserId(Long userId) {
+        User user = userRepository.findById(userId).get();
         return user.getProjects();
     }
 

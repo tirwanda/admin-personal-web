@@ -19,9 +19,12 @@ import java.util.List;
 public class ProjectController {
     private final ProjectServiceImpl projectService;
 
-    @PostMapping("/project")
-    public ResponseEntity<ResponseData<Project>> saveProject(@Valid @RequestBody Project project, Errors errors) {
+    @PostMapping("/project/{userId}")
+    public ResponseEntity<ResponseData<Project>> saveProject(@PathVariable("userId") Long userId,
+                                                             @Valid @RequestBody Project project,
+                                                             Errors errors) {
         ResponseData<Project> responseData = new ResponseData<>();
+        Project projectSave = projectService.saveProject(project);
 
         if (errors.hasErrors()) {
             for (ObjectError error : errors.getAllErrors()) {
@@ -31,9 +34,9 @@ public class ProjectController {
             responseData.setPayload(null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
-
+        projectService.addProjectToUser(userId, projectSave.getProjectId());
         responseData.setStatus(true);
-        responseData.setPayload(projectService.saveProject(project));
+        responseData.setPayload(projectSave);
         return ResponseEntity.ok(responseData);
     }
 

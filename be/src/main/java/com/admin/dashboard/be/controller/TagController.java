@@ -1,8 +1,10 @@
 package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.dto.ResponseData;
+import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Tag;
 import com.admin.dashboard.be.service.TagServiceImpl;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,11 @@ public class TagController {
         responseData.setStatus(true);
         responseData.setPayload(tagService.saveTag(tag));
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/tag/save-to-project")
+    public void saveTagToProject(@RequestBody TagToProjectForm tagToProjectForm) {
+        tagService.addTagToProject(tagToProjectForm.getName(), tagToProjectForm.getTitle());
     }
 
     @GetMapping("/tags")
@@ -77,4 +84,10 @@ public class TagController {
     public void removeTag(@PathVariable("id") Long id) {
         tagService.deleteTag(id);
     }
+}
+
+@Data
+class TagToProjectForm {
+    private String title;
+    private String name;
 }

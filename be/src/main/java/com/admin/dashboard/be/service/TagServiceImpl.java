@@ -31,6 +31,13 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
+    public void addTagToProject(String tagName, String projectTitle) {
+        Project project = projectRepository.findProjectByTitle(projectTitle);
+        Tag tag = tagRepository.findTagByName(tagName);
+        tag.getProjects().add(project);
+    }
+
+    @Override
     public Tag getTag(Long tagId) {
         Optional<Tag> tag = tagRepository.findById(tagId);
         return tag.orElse(null);

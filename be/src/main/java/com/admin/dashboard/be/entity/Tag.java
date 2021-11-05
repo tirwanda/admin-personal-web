@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -28,6 +29,9 @@ public class Tag implements Serializable {
     @NotEmpty(message = "Tag name is required")
     private String name;
 
-    @OneToMany(mappedBy = "tag")
-    private List<Project> projects;
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "tag"
+    )
+    private List<Project> projects = new ArrayList<>();
 }

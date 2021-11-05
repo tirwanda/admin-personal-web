@@ -40,9 +40,10 @@ public class TagController {
         return ResponseEntity.ok(responseData);
     }
 
-    @PostMapping("/tag/save-to-project")
-    public void saveTagToProject(@RequestBody TagToProjectForm tagToProjectForm) {
-        tagService.addTagToProject(tagToProjectForm.getName(), tagToProjectForm.getTitle());
+    @PutMapping("/{tagId}/tag/{projectId}")
+    public void saveTagToProject(@PathVariable("tagId") Long tagId, @PathVariable("projectId") Long projectId) {
+//        tagService.addTagToProject(tagToProjectForm.getName(), tagToProjectForm.getTitle());
+        tagService.addTagToProject(tagId, projectId);
     }
 
     @GetMapping("/tags")

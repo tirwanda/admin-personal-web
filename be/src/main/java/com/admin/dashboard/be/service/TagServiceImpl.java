@@ -31,10 +31,10 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public void addTagToProject(String tagName, String projectTitle) {
-        Project project = projectRepository.findProjectByTitle(projectTitle);
-        Tag tag = tagRepository.findTagByName(tagName);
-        tag.getProjects().add(project);
+    public void addTagToProject(Long tagId, Long projectId) {
+        Project project = projectRepository.findById(projectId).get();
+        Tag tag = tagRepository.findById(tagId).get();
+        project.setTag(tag);
     }
 
     @Override

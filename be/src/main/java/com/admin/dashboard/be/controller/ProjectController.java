@@ -68,6 +68,15 @@ public class ProjectController {
         return ResponseEntity.ok(responseData);
     }
 
+    @PutMapping("/{tagId}/project/{projectId}")
+    public ResponseEntity<ResponseData<Project>> saveTagToProject(@PathVariable("tagId") Long tagId,
+                                                                  @PathVariable("projectId") Long projectId) {
+        ResponseData<Project> responseData = new ResponseData<>();
+        responseData.setStatus(true);
+        responseData.setPayload(projectService.addTagToProject(tagId, projectId));
+        return ResponseEntity.ok(responseData);
+    }
+
     @DeleteMapping("/project/{id}")
     public void removeProject(@PathVariable("id") Long projectId) {
         projectService.deleteProject(projectId);

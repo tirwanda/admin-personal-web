@@ -4,6 +4,7 @@ import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Tag;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.repository.ProjectRepository;
+import com.admin.dashboard.be.repository.TagRepository;
 import com.admin.dashboard.be.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService{
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
+    private final TagRepository tagRepository;
 
     @Override
     public Project saveProject(Project project) {
@@ -33,6 +35,14 @@ public class ProjectServiceImpl implements ProjectService{
         User user = userRepository.findById(userId).get();
         Project project = projectRepository.findById(projectId).get();
         user.getProjects().add(project);
+    }
+
+    @Override
+    public Project addTagToProject(Long tagId, Long projectId) {
+        Project project = projectRepository.findById(projectId).get();
+        Tag tag = tagRepository.findById(tagId).get();
+        project.setTag(tag);
+        return project;
     }
 
     @Override

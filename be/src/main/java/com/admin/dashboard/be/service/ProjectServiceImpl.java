@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,24 +32,36 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void addProjectToUser(Long userId, Long projectId) {
-        User user = userRepository.findById(userId).get();
-        Project project = projectRepository.findById(projectId).get();
-        user.getProjects().add(project);
+    public User addProjectToUser(Long userId, Long projectId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Project> project = projectRepository.findById(projectId);
+
+        if (user.isEmpty() || project.isEmpty()) {
+            return null;
+        }
+        user.get().getProjects().add(project.get());
+        return user.get();
     }
 
     @Override
     public Project addTagToProject(Long tagId, Long projectId) {
-        Project project = projectRepository.findById(projectId).get();
-        Tag tag = tagRepository.findById(tagId).get();
-        project.setTag(tag);
-        return project;
+        Optional<Project> project = projectRepository.findById(projectId);
+        Optional<Tag> tag = tagRepository.findById(tagId);
+
+        if (project.isEmpty() || tag.isEmpty()) {
+            return null;
+        }
+        project.get().setTag(tag.get());
+        return project.get();
     }
 
     @Override
     public List<Project> getProjectsByUserId(Long userId) {
-        User user = userRepository.findById(userId).get();
-        return user.getProjects();
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get().getProjects();
     }
 
     @Override

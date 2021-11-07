@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,11 @@ public class TechServiceImpl implements TechService{
 
     @Override
     public List<Tech> GetAllTechByProject(Long projectId) {
-        Project project = projectRepository.findById(projectId).get();
-        return project.getTechList();
+        Optional<Project> project = projectRepository.findById(projectId);
+        if (project.isEmpty()) {
+            return null;
+        }
+        return project.get().getTechList();
     }
 
     @Override
@@ -36,7 +40,11 @@ public class TechServiceImpl implements TechService{
 
     @Override
     public Tech getTechById(Long techId) {
-        return techRepository.findById(techId).get();
+        Optional<Tech> tech = techRepository.findById(techId);
+        if (tech.isEmpty()) {
+            return null;
+        }
+        return tech.get();
     }
 
     @Override

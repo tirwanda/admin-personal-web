@@ -26,8 +26,11 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public Tag getTagByProject(Long projectId) {
-        Project project = projectRepository.findById(projectId).orElse(null);
-        return project.getTag();
+        Optional<Project> project = projectRepository.findById(projectId);
+        if (project.isEmpty()) {
+            return null;
+        }
+        return project.get().getTag();
     }
 
     @Override

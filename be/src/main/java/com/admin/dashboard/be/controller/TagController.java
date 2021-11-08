@@ -1,9 +1,11 @@
 package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.dto.ResponseData;
+import com.admin.dashboard.be.dto.TagDTO;
 import com.admin.dashboard.be.entity.Tag;
 import com.admin.dashboard.be.service.TagServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class TagController {
     private final TagServiceImpl tagService;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/tag")
-    public ResponseEntity<ResponseData<Tag>> saveTag(@Valid @RequestBody() Tag tag, Errors errors) {
+    public ResponseEntity<ResponseData<Tag>> saveTag(@Valid @RequestBody() TagDTO tagDTO, Errors errors) {
         ResponseData<Tag> responseData = new ResponseData<>();
 
         if (errors.hasErrors()) {
@@ -32,7 +35,7 @@ public class TagController {
             responseData.setPayload(null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
-
+        Tag tag = modelMapper.map(tagDTO, Tag.class);
         responseData.setStatus(true);
         responseData.setPayload(tagService.saveTag(tag));
         return ResponseEntity.ok(responseData);

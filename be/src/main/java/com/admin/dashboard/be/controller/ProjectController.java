@@ -1,9 +1,11 @@
 package com.admin.dashboard.be.controller;
 
+import com.admin.dashboard.be.dto.ProjectDTO;
 import com.admin.dashboard.be.dto.ResponseData;
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.service.ProjectServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -18,13 +20,13 @@ import java.util.List;
 @RequestMapping("/api")
 public class ProjectController {
     private final ProjectServiceImpl projectService;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/project/{userId}")
     public ResponseEntity<ResponseData<Project>> saveProject(@PathVariable("userId") Long userId,
-                                                             @Valid @RequestBody Project project,
+                                                             @Valid @RequestBody ProjectDTO projectDTO,
                                                              Errors errors) {
         ResponseData<Project> responseData = new ResponseData<>();
-        Project projectSave = projectService.saveProject(project);
 
         if (errors.hasErrors()) {
             for (ObjectError error : errors.getAllErrors()) {
@@ -34,6 +36,8 @@ public class ProjectController {
             responseData.setPayload(null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
+        Project project = modelMapper.map(projectDTO, Project.class);
+        Project projectSave = projectService.saveProject(project);
         projectService.addProjectToUser(userId, projectSave.getProjectId());
         responseData.setStatus(true);
         responseData.setPayload(projectSave);
@@ -51,7 +55,8 @@ public class ProjectController {
     }
 
     @PutMapping("/project")
-    public ResponseEntity<ResponseData<Project>> updateProject(@Valid @RequestBody Project project, Errors errors) {
+    public ResponseEntity<ResponseData<Project>> updateProject(@Valid @RequestBody ProjectDTO projectDTO,
+                                                               Errors errors) {
         ResponseData<Project> responseData = new ResponseData<>();
 
         if (errors.hasErrors()) {
@@ -63,6 +68,7 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
 
+        Project project = modelMapper.map(projectDTO, Project.class);
         responseData.setStatus(true);
         responseData.setPayload(projectService.saveProject(project));
         return ResponseEntity.ok(responseData);

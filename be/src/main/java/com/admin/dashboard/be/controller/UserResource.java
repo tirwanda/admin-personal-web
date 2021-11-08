@@ -1,14 +1,13 @@
 package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.dto.ResponseData;
-import com.admin.dashboard.be.dto.ResponseDataGenerator;
-import com.admin.dashboard.be.entity.ProfileImage;
+import com.admin.dashboard.be.dto.RoleDTO;
+import com.admin.dashboard.be.dto.UserDTO;
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.exception.ResourceNotFoundException;
 import com.admin.dashboard.be.repository.UserRepository;
 import com.admin.dashboard.be.service.UserService;
-import com.admin.dashboard.be.wrappers.ProfileImageWrapper;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -16,9 +15,8 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.File;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -29,6 +27,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -50,7 +49,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserResource {
     private final UserService userService;
     private final UserRepository userRepository;
-    private final ResponseDataGenerator responseDataGenerator;
+    private final ModelMapper modelMapper;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
@@ -63,20 +62,43 @@ public class UserResource {
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<ResponseData<User>> saveUser(@Valid @RequestBody UserDTO userDTO, Errors errors) {
         URI uri = URI.create(ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/api/user/save").toUriString());
-
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        ResponseData<User> responseData = new ResponseData<>();
+        if (errors.hasErrors()) {
+            for ( ObjectError error : errors.getAllErrors()) {
+                responseData.getMessages().add(error.getDefaultMessage());
+            }
+            responseData.setStatus(false);
+            responseData.setPayload(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+        }
+        User user = modelMapper.map(userDTO, User.class);
+        responseData.setStatus(true);
+        responseData.setPayload(userService.saveUser(user));
+        return ResponseEntity.created(uri).body(responseData);
     }
 
     @PostMapping("/role/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+    public ResponseEntity<ResponseData<Role>> saveRole(@Valid @RequestBody RoleDTO roleDTO, Errors errors) {
         URI uri = URI.create(ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/api/role/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
+        ResponseData<Role> responseData = new ResponseData<>();
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
+                responseData.getMessages().add(error.getDefaultMessage());
+            }
+            responseData.setStatus(false);
+            responseData.setPayload(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+        }
+        Role role = modelMapper.map(roleDTO, Role.class);
+        responseData.setStatus(true);
+        responseData.setPayload(userService.saveRole(role));
+        return ResponseEntity.created(uri).body(responseData);
     }
 
     @PostMapping("/role/add-to-user")
@@ -94,11 +116,7 @@ public class UserResource {
         return ResponseEntity.ok(responseData);
     }
 
-    @PostMapping(
-            value = "/upload/image/{userId}"
-//            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-//            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(value = "/upload/image/{userId}")
     public ResponseEntity<ResponseData<User>> updateImage(@PathVariable("userId") Long userId,
                                           @RequestParam("fileImage") MultipartFile multipartFile)
             throws IOException {

@@ -1,5 +1,6 @@
 package com.admin.dashboard.be.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "techId"
-)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "techId"
+//)
 public class Tech implements Serializable {
 
     @Serial
@@ -35,6 +36,7 @@ public class Tech implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "techList")
+    @JsonBackReference
     private List<Project> projects = new ArrayList<>();
 
     private String imageURL;

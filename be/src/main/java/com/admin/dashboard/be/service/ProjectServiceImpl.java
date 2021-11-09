@@ -2,6 +2,7 @@ package com.admin.dashboard.be.service;
 
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Tag;
+import com.admin.dashboard.be.entity.Tech;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.TagRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,8 @@ public class ProjectServiceImpl implements ProjectService{
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
+
+    private final TechService techService;
 
     @Override
     public Project saveProject(Project project) {
@@ -72,6 +76,15 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public List<Project> findProjectByTag(Long tagId) {
         return projectRepository.findProjectByTag(tagId);
+    }
+
+    @Override
+    public List<Project> findProjectByTech(Long techId) {
+        Tech tech = techService.getTechById(techId);
+        if (tech == null) {
+            return new ArrayList<Project>();
+        }
+        return projectRepository.findProjectByTech(tech);
     }
 
     @Override

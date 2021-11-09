@@ -60,6 +60,12 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
+    @GetMapping("/project/findByTech/{techId}")
+    public ResponseEntity<List<Project>> findProjectByTech(@PathVariable("techId") Long techId) {
+        List<Project> projects = projectService.findProjectByTech(techId);
+        return ResponseEntity.ok(projects);
+    }
+
     @PutMapping("/project")
     public ResponseEntity<ResponseData<Project>> updateProject(@Valid @RequestBody ProjectDTO projectDTO,
                                                                Errors errors) {

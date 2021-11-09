@@ -13,5 +13,6 @@ public interface ProjectService {
     List<Project> getProjectsByUserId(Long userId);
     List<Project> getAllProjects();
     List<Project> findProjectByTag(Long tagId);
+    List<Project> findProjectByTech(Long techId);
     Project getProject(Long projectId);
 }

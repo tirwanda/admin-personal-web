@@ -1,6 +1,7 @@
 package com.admin.dashboard.be.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,10 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "projectId"
-)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "projectId"
+//)
 public class Project implements Serializable {
 
     @Serial
@@ -45,6 +46,7 @@ public class Project implements Serializable {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
+    @JsonManagedReference
     private List<Tech> techList = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)

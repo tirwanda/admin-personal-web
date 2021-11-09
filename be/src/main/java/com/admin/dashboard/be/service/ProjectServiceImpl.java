@@ -70,6 +70,11 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    public List<Project> findProjectByTag(Long tagId) {
+        return projectRepository.findProjectByTag(tagId);
+    }
+
+    @Override
     public Project getProject(Long projectId) {
         return projectRepository.findProjectByProjectId(projectId);
     }

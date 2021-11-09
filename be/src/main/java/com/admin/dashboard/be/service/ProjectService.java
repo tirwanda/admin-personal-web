@@ -12,5 +12,6 @@ public interface ProjectService {
     Project addTagToProject(Long tagId, Long projectId);
     List<Project> getProjectsByUserId(Long userId);
     List<Project> getAllProjects();
+    List<Project> findProjectByTag(Long tagId);
     Project getProject(Long projectId);
 }

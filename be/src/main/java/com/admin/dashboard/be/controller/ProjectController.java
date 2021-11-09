@@ -54,6 +54,12 @@ public class ProjectController {
         return projectService.getProject(projectId);
     }
 
+    @GetMapping("/project/findByTag/{tagId}")
+    public ResponseEntity<List<Project>> findProjectByTag(@PathVariable("tagId") Long tagId) {
+        List<Project> projects = projectService.findProjectByTag(tagId);
+        return ResponseEntity.ok(projects);
+    }
+
     @PutMapping("/project")
     public ResponseEntity<ResponseData<Project>> updateProject(@Valid @RequestBody ProjectDTO projectDTO,
                                                                Errors errors) {

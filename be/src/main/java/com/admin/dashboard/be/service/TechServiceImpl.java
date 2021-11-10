@@ -48,8 +48,8 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
-    public Tech getTechByName(String name) {
-        return techRepository.findByName(name);
+    public List<Tech> getTechByName(String name) {
+        return techRepository.findByNameContains(name);
     }
 
     @Override

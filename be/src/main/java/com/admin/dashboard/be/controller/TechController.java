@@ -59,8 +59,8 @@ public class TechController {
     }
 
     @GetMapping("/tech/search/byName")
-    public ResponseEntity<Tech> findTechByName(@RequestBody SearchData searchData) {
-        Tech tech = techService.getTechByName(searchData.getName());
+    public ResponseEntity<List<Tech>> findTechByName(@RequestBody SearchData searchData) {
+        List<Tech> tech = techService.getTechByName(searchData.getSearchKey());
         return ResponseEntity.ok(tech);
     }
 

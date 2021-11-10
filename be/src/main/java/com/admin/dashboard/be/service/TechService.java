@@ -9,5 +9,6 @@ public interface TechService {
     List<Tech> GetAllTechByProject(Long projectId);
     List<Tech> getAllTech();
     Tech getTechById(Long techId);
+    Tech getTechByName(String name);
     void deleteTech(Long techId);
 }

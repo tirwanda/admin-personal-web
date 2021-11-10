@@ -10,6 +10,7 @@ public interface ProjectService {
     void deleteProject(Long projectId);
     User addProjectToUser(Long userId, Long projectId);
     Project addTagToProject(Long tagId, Long projectId);
+    Project addTechToProject(Long techId, Long projectId);
     List<Project> getProjectsByUserId(Long userId);
     List<Project> getAllProjects();
     List<Project> findProjectByTag(Long tagId);

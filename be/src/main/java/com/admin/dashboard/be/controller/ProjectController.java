@@ -95,6 +95,12 @@ public class ProjectController {
         return ResponseEntity.ok(responseData);
     }
 
+    @PutMapping("/{techId}/addTechToProject/{projectId}")
+    public ResponseEntity<Project> saveTechToProject(@PathVariable("techId") Long techId,
+                                                     @PathVariable("projectId") Long projectId) {
+        return ResponseEntity.ok(projectService.addTechToProject(techId, projectId));
+    }
+
     @DeleteMapping("/project/{id}")
     public void removeProject(@PathVariable("id") Long projectId) {
         projectService.deleteProject(projectId);

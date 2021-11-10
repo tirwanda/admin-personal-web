@@ -48,6 +48,11 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
+    public Tech getTechByName(String name) {
+        return techRepository.findByName(name);
+    }
+
+    @Override
     public void deleteTech(Long techId) {
         techRepository.deleteById(techId);
     }

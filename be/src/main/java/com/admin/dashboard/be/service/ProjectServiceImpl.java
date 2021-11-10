@@ -6,6 +6,7 @@ import com.admin.dashboard.be.entity.Tech;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.TagRepository;
+import com.admin.dashboard.be.repository.TechRepository;
 import com.admin.dashboard.be.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
+    private final TechRepository techRepository;
 
     private final TechService techService;
 
@@ -56,6 +58,17 @@ public class ProjectServiceImpl implements ProjectService{
             return null;
         }
         project.get().setTag(tag.get());
+        return project.get();
+    }
+
+    @Override
+    public Project addTechToProject(Long techId, Long projectId) {
+        Optional<Project> project = projectRepository.findById(projectId);
+        Optional<Tech> tech = techRepository.findById(techId);
+        if (project.isEmpty() || tech.isEmpty()) {
+            return null;
+        }
+        project.get().getTechList().add(tech.get());
         return project.get();
     }
 

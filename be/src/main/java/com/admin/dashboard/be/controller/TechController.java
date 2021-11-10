@@ -1,9 +1,12 @@
 package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.dto.ResponseData;
+import com.admin.dashboard.be.dto.SearchData;
+import com.admin.dashboard.be.dto.TechDTO;
 import com.admin.dashboard.be.entity.Tech;
 import com.admin.dashboard.be.service.TechServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,9 +22,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class TechController {
     private final TechServiceImpl techService;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/tech")
-    public ResponseEntity<ResponseData<Tech>> saveTech(@Valid @RequestBody Tech tech, Errors errors) {
+    public ResponseEntity<ResponseData<Tech>> saveTech(@Valid @RequestBody TechDTO techDTO, Errors errors) {
         ResponseData<Tech> responseData = new ResponseData<>();
 
         if (errors.hasErrors()) {
@@ -32,6 +36,7 @@ public class TechController {
             responseData.setPayload(null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
+        Tech tech = modelMapper.map(techDTO, Tech.class);
         responseData.setStatus(true);
         responseData.setPayload(techService.saveTech(tech));
         return ResponseEntity.ok(responseData);
@@ -51,6 +56,12 @@ public class TechController {
         responseData.setStatus(true);
         responseData.setPayload(techService.getTechById(techId));
         return ResponseEntity.ok(responseData);
+    }
+
+    @GetMapping("/tech/search/byName")
+    public ResponseEntity<Tech> findTechByName(@RequestBody SearchData searchData) {
+        Tech tech = techService.getTechByName(searchData.getName());
+        return ResponseEntity.ok(tech);
     }
 
     @PutMapping("/tech")

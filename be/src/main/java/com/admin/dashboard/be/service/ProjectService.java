@@ -2,6 +2,7 @@ package com.admin.dashboard.be.service;
 
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.User;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public interface ProjectService {
     User addProjectToUser(Long userId, Long projectId);
     Project addTagToProject(Long tagId, Long projectId);
     Project addTechToProject(Long techId, Long projectId);
+    Iterable<Project> getProjectByTitleContains(String title, Pageable pageable);
     List<Project> getProjectsByUserId(Long userId);
     List<Project> getAllProjects();
     List<Project> findProjectByTag(Long tagId);

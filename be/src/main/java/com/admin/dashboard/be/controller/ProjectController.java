@@ -2,10 +2,13 @@ package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.dto.ProjectDTO;
 import com.admin.dashboard.be.dto.ResponseData;
+import com.admin.dashboard.be.dto.SearchData;
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.service.ProjectServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -42,6 +45,14 @@ public class ProjectController {
         responseData.setStatus(true);
         responseData.setPayload(projectSave);
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/search/project/by-title-contains/{size}/{page}")
+    public Iterable<Project> getProjectByTitleContains(@RequestBody SearchData searchData,
+                                                       @PathVariable("size") Integer size,
+                                                       @PathVariable("page") Integer page) {
+        Pageable pageable = PageRequest.of(page, size);
+        return projectService.getProjectByTitleContains(searchData.getSearchKey(), pageable);
     }
 
     @GetMapping("/projects")

@@ -9,6 +9,7 @@ import com.admin.dashboard.be.repository.TagRepository;
 import com.admin.dashboard.be.repository.TechRepository;
 import com.admin.dashboard.be.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -70,6 +71,11 @@ public class ProjectServiceImpl implements ProjectService{
         }
         project.get().getTechList().add(tech.get());
         return project.get();
+    }
+
+    @Override
+    public Iterable<Project> getProjectByTitleContains(String title, Pageable pageable) {
+        return projectRepository.findProjectByTitleContains(title, pageable);
     }
 
     @Override

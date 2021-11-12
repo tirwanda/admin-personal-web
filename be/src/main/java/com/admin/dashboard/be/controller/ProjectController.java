@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -47,11 +48,15 @@ public class ProjectController {
         return ResponseEntity.ok(responseData);
     }
 
-    @PostMapping("/search/project/by-title-contains/{size}/{page}")
+    @PostMapping("/search/project/by-title-contains/{size}/{page}/{sort}")
     public Iterable<Project> getProjectByTitleContains(@RequestBody SearchData searchData,
                                                        @PathVariable("size") Integer size,
-                                                       @PathVariable("page") Integer page) {
-        Pageable pageable = PageRequest.of(page, size);
+                                                       @PathVariable("page") Integer page,
+                                                       @PathVariable("sort") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("projectId"));
+        if (sort.equalsIgnoreCase("desc")) {
+            pageable = PageRequest.of(page, size, Sort.by("projectId").descending());
+        }
         return projectService.getProjectByTitleContains(searchData.getSearchKey(), pageable);
     }
 

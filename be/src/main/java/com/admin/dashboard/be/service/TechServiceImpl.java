@@ -39,6 +39,11 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
+    public List<Tech> saveBatch(Iterable<Tech> techList) {
+        return techRepository.saveAll(techList);
+    }
+
+    @Override
     public Tech getTechById(Long techId) {
         Optional<Tech> tech = techRepository.findById(techId);
         if (tech.isEmpty()) {

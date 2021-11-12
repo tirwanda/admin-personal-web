@@ -8,6 +8,7 @@ public interface TechService {
     Tech saveTech(Tech tech);
     List<Tech> GetAllTechByProject(Long projectId);
     List<Tech> getAllTech();
+    List<Tech> saveBatch(Iterable<Tech> techList);
     Tech getTechById(Long techId);
     List<Tech> getTechByName(String name);
     void deleteTech(Long techId);

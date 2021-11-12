@@ -15,6 +15,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -39,6 +40,14 @@ public class TechController {
         Tech tech = modelMapper.map(techDTO, Tech.class);
         responseData.setStatus(true);
         responseData.setPayload(techService.saveTech(tech));
+        return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/save-tech-batch")
+    public ResponseEntity<ResponseData<List<Tech>>> saveBatch(@RequestBody Tech[] techList) {
+        ResponseData<List<Tech>> responseData = new ResponseData<>();
+        responseData.setStatus(true);
+        responseData.setPayload(techService.saveBatch(Arrays.asList(techList)));
         return ResponseEntity.ok(responseData);
     }
 

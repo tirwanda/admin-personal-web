@@ -1,5 +1,6 @@
 package com.admin.dashboard.be.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -46,7 +47,7 @@ public class Project implements Serializable {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<Tech> techList = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -30,13 +30,13 @@ function Dashboard(props) {
 			})
 			.catch((e) => {
 				localStorage.clear();
-				history.push('/');
+				history.push('/login');
 			});
 	}, [history]);
 
 	const logOut = () => {
 		localStorage.clear();
-		history.push('/');
+		history.push('/logn');
 	};
 
 	props.getUserData(data);

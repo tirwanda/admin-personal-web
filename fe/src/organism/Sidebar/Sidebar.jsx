@@ -11,13 +11,13 @@ import {
 import { TextSpan, Name } from '../../atoms/Text/Text';
 
 // Svg File
-import Logo from '../../assets/logo.svg';
-import Home from '../../assets/home-solid.svg';
-import Team from '../../assets/social.svg';
-import Calender from '../../assets/scheduled.svg';
-import Projects from '../../assets/starred.svg';
-import Documents from '../../assets/draft.svg';
-import Power from '../../assets/power-off-solid.svg';
+import Logo from '../../assets/svg/logo.svg';
+import Home from '../../assets/svg/home-solid.svg';
+import Team from '../../assets/svg/social.svg';
+import Calender from '../../assets/svg/scheduled.svg';
+import Projects from '../../assets/svg/starred.svg';
+import Documents from '../../assets/svg/draft.svg';
+import Power from '../../assets/svg/power-off-solid.svg';
 
 const SlickBar = styled.ul`
 	color: var(--white);

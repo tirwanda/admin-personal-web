@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import '../node_modules/normalize.css';
 
 ReactDOM.render(
 	<Provider store={store}>

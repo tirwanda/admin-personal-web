@@ -13,10 +13,14 @@ import MainAbout from './template/MainAbout/MainAbout';
 function App() {
 	return (
 		<div>
+			<GlobalStyle />
 			<Router>
 				<Switch>
-					<Route exact path="/" component={MainContent} />
-					<Route exact path="/login" component={LoginPage} /> */
+					<ThemeProvider theme={lightTheme}>
+						<Route exact path="/" component={MainHome} />
+						<Route exact path="/about" component={MainAbout} />
+					</ThemeProvider>
+					<Route exact path="/login" component={LoginPage} />
 					<Route path="/dashboard" component={Dashboard} />
 				</Switch>
 			</Router>

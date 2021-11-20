@@ -9,6 +9,7 @@ import LogoComponent from '../../atoms/Logo/LogoComponent';
 import SocialIcons from '../../atoms/SocialICons/SocialIcons';
 import { YinYang } from '../../atoms/AllSvgs/AllSvgs';
 import { useState } from 'react';
+import Intro from '../../organism/Intro/Intro';
 
 const rotate = keyframes`
 	from {
@@ -111,8 +112,8 @@ const MainHome = () => {
 
 	return (
 		<MainContainer>
+			<DarkDiv click={click} />
 			<div className="mainHome-container">
-				<DarkDiv click={click} />
 				<PowerButton />
 				<LogoComponent theme={click ? 'dark' : 'light'} />
 				<SocialIcons theme={click ? 'dark' : 'light'} />
@@ -151,6 +152,7 @@ const MainHome = () => {
 					</Skills>
 				</BottomBar>
 			</div>
+			{click ? <Intro click={click} /> : null}
 		</MainContainer>
 	);
 };

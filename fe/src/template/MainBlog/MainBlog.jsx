@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import wallpaper from '../../assets/images/main-content/patrick-tomasso-Oaqk7qqNh_c-unsplash.jpg';
@@ -8,6 +8,7 @@ import SocialIcons from '../../atoms/SocialICons/SocialIcons';
 import BlogComponent from '../../molecule/BlogComponent/BlogComponent';
 
 import { Blogs } from '../../data/BlogData';
+import AnchorComponent from '../../atoms/Anchor/AnchorComponent';
 
 const MainContainerBlog = styled.div`
 	background-image: url(${wallpaper});
@@ -38,13 +39,19 @@ const Grid = styled.div`
 `;
 
 const MainBlog = () => {
+	const [numbers, setNumbers] = useState(0);
+
+	useEffect(() => {
+		let num = (window.innerHeight - 70) / 25;
+		setNumbers(parseInt(num));
+	}, []);
 	return (
 		<MainContainerBlog>
 			<Container>
 				<LogoComponent />
 				<PowerButton />
 				<SocialIcons />
-
+				<AnchorComponent number={numbers} />
 				<Center>
 					<Grid>
 						{Blogs.map((blog) => {

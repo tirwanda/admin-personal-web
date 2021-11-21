@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './mainHome.scss';
 import styled, { keyframes } from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { MainContainer } from '../../atoms/Container/Container';
 import PowerButton from '../../atoms/PowerButton/PowerButton';
@@ -132,23 +133,48 @@ const MainHome = () => {
 					target="_blank"
 					to={{ pathname: 'mailto:edhodwitirwanda@gmail.com' }}
 				>
-					<h3>Say Hi..</h3>
+					<motion.h2
+						whileHover={{ scale: 1.1 }}
+						whileTap={{ scale: 0.9 }}
+					>
+						Say Hi..
+					</motion.h2>
 				</Contact>
 
 				<Blog to="/blog">
-					<h3>Blog</h3>
+					<motion.h2
+						whileHover={{ scale: 1.1 }}
+						whileTap={{ scale: 0.9 }}
+					>
+						Blog
+					</motion.h2>
 				</Blog>
 
 				<Work click={click} to="/work">
-					<h3>Work</h3>
+					<motion.h2
+						whileHover={{ scale: 1.1 }}
+						whileTap={{ scale: 0.9 }}
+					>
+						Work
+					</motion.h2>
 				</Work>
 
 				<BottomBar>
 					<About click={click} to="/ablout">
-						<h2>About me.</h2>
+						<motion.h2
+							whileHover={{ scale: 1.1 }}
+							whileTap={{ scale: 0.9 }}
+						>
+							About me.
+						</motion.h2>
 					</About>
 					<Skills to="/Skills">
-						<h2>Skills.</h2>
+						<motion.h2
+							whileHover={{ scale: 1.1 }}
+							whileTap={{ scale: 0.9 }}
+						>
+							Skills.
+						</motion.h2>
 					</Skills>
 				</BottomBar>
 			</div>

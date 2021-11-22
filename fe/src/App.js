@@ -9,6 +9,7 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme } from './atoms/Themes/Themes';
 import MainAbout from './template/MainAbout/MainAbout';
 import MainBlog from './template/MainBlog/MainBlog';
+import MainSkills from './template/MainSkills/MainSkills';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 						<Route exact path="/" component={MainHome} />
 						<Route exact path="/about" component={MainAbout} />
 						<Route exact path="/blog" component={MainBlog} />
+						<Route exact path="/skills" component={MainSkills} />
 						<Route exact path="/login" component={LoginPage} />
 						<Route path="/dashboard" component={Dashboard} />
 					</Switch>

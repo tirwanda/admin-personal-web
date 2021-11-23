@@ -22,7 +22,7 @@ const Slider = styled.div`
 
 const PreDisplay = styled.div`
 	position: absolute;
-	top: -40px;
+	top: 0;
 	right: 2rem;
 `;
 

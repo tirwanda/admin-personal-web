@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { PowerBtn } from '../AllSvgs/AllSvgs';
 
 const Power = styled.button`
-	position: relative;
+	position: absolute;
 	top: 2rem;
 	left: 50%;
 	transform: translate(-50%, 0);

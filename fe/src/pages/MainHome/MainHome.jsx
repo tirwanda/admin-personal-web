@@ -160,7 +160,7 @@ const MainHome = () => {
 				</Work>
 
 				<BottomBar>
-					<About click={click} to="/ablout">
+					<About click={click} to="/about">
 						<motion.h2
 							whileHover={{ scale: 1.1 }}
 							whileTap={{ scale: 0.9 }}

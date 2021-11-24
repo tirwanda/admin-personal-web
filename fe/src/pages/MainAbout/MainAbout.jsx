@@ -1,133 +1,87 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { keyframes, ThemeProvider } from 'styled-components';
+
 import PowerButton from '../../atoms/PowerButton/PowerButton';
 import LogoComponent from '../../atoms/Logo/LogoComponent';
-import SocialIcons from '../../atoms/SocialICons/SocialIcons';
 import ParticleComponent from '../../atoms/ParticleComponent/ParticleComponent';
-import { lightTheme } from '../../atoms/Themes/Themes';
-import { Design, Develope } from '../../atoms/AllSvgs/AllSvgs';
+import astronout from '../../assets/images/main-content/spaceman.png';
+import SocialIcons from '../../atoms/SocialICons/SocialIcons';
+import { darkTheme } from '../../atoms/Themes/Themes';
+
+const float = keyframes`
+	0% {
+		transform: translateY(-10px)
+	}
+	50% {
+		transform: translateY(15px) translateX(15px)
+	}
+	100% {
+		transform: translateY(-10px)
+	}
+`;
 
 const Box = styled.div`
 	background-color: ${(props) => props.theme.body};
 	width: 100vw;
 	height: 100vh;
 	position: relative;
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
+	overflow: hidden;
+`;
+
+const SpaceMan = styled.div`
+	position: absolute;
+	top: 10%;
+	right: 5%;
+	width: 20vw;
+
+	animation: ${float} 4s ease infinite;
+	img {
+		width: 100%;
+		height: auto;
+	}
 `;
 
 const Main = styled.div`
 	border: 2px solid ${(props) => props.theme.text};
 	color: ${(props) => props.theme.text};
-	background-color: ${(props) => props.theme.body};
 	padding: 2rem;
-	width: 30vw;
+	width: 50vw;
 	height: 60vh;
 	z-index: 3;
 	line-height: 1.5;
-
-	font-family: 'Ubuntu Mono', monospace;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	transition: all 0.3s ease;
-
-	&:hover {
-		color: ${(props) => props.theme.body};
-		background-color: ${(props) => props.theme.text};
-		cursor: pointer;
-	}
-`;
-
-const Title = styled.h2`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: calc(1em + 1vw);
-
-	${Main}:hover & {
-		& > * {
-			fill: ${(props) => props.theme.body};
-		}
-	}
-
-	& > *:first-child {
-		margin-right: 1rem;
-	}
-`;
-
-const Description = styled.div`
-	color: ${(props) => props.theme.text};
-	font-size: calc(0.7em + 1vh);
-	padding: 0.5rem 0;
-
-	strong {
-		margin-bottom: 1rem;
-		text-transform: uppercase;
-	}
-	ul,
-	p {
-		margin-left: 2rem;
-	}
-
-	${Main}:hover & {
-		color: ${(props) => props.theme.body};
-	}
+	font-size: calc(0.6rem + 1vw);
+	backdrop-filter: blur(4px);
+	position: absolute;
+	left: calc(5rem + 5vw);
+	top: 10rem;
+	font-family: 'Ubuntu Mono', monospace;
+	font-style: italic;
 `;
 
 const MainAbout = () => {
 	return (
-		<ThemeProvider theme={lightTheme}>
+		<ThemeProvider theme={darkTheme}>
 			<Box>
-				<LogoComponent theme="light" />
-				<SocialIcons theme="light" />
+				<LogoComponent theme="dark" />
+				<SocialIcons theme="dark" />
 				<PowerButton />
-				<ParticleComponent theme="light" />
+				<ParticleComponent theme="dark" />
+				<SpaceMan>
+					<img src={astronout} alt="Space Man" />
+				</SpaceMan>
 				<Main>
-					<Title>
-						<Design width={40} height={40} />
-						Front-end
-					</Title>
-					<Description>
-						I love to create design which speaks, Keep it clean,
-						minimal and simple.
-					</Description>
-					<Description>
-						<strong>Skills</strong>
-						<ul>
-							<li>Web Design</li>
-							<li>Mobile Apps</li>
-						</ul>
-					</Description>
-					<Description>
-						<strong>Library</strong>
-						<ul>
-							<li>React</li>
-							<li>Material Ui</li>
-						</ul>
-					</Description>
-				</Main>
-				<Main>
-					<Title>
-						<Develope width={40} height={40} />
-						Back-end
-					</Title>
-					<Description>
-						I value business or brand for which i'm creating, thus i
-						enjoy bringing new ideas to life.
-					</Description>
-					<Description>
-						<strong>Skills</strong>
-						<p>
-							Java, Spring Boot, Node js, MySql, Postgree,
-							Mongoodb
-						</p>
-					</Description>
-					<Description>
-						<strong>Tools</strong>
-						<p>Vs Code, Postman, Github, IntelIj</p>
-					</Description>
+					High-quality professional with 1+ years of IT experiences in
+					development, implementation and testing of Client-Server,
+					Web Applications using JAVA/J2EE technologies.
+					<br /> <br />
+					Interested in a challenging career in web application
+					development environment.
+					<br /> <br />
+					Skilled in JAVA/J2EE, Mongodb, MySQL, Reactjs, Sveltejs,
+					React Native, Nodejs/Expressjs.
 				</Main>
 			</Box>
 		</ThemeProvider>

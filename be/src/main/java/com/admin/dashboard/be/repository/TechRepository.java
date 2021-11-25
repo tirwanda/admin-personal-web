@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TechRepository extends JpaRepository<Tech, Long> {
     List<Tech> findByNameContains(String name);
+    Tech findByName(String name);
 }

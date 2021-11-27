@@ -1,20 +1,13 @@
 package com.admin.dashboard.be.repository;
 
-import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.ArrayList;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@ExtendWith(SpringExtension.class)
 class TagRepositoryTest {
 
     @Autowired
@@ -27,7 +20,16 @@ class TagRepositoryTest {
 
     @Test
     void testSaveTag() {
-        Tag tag = new Tag(1L, "java", new ArrayList<>());
-        assertThat(tagRepository.save(tag)).isNotNull();
+        Tag tag = Tag.builder().name("Mobile").build();
+        Tag result = tagRepository.save(tag);
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    void testFindTagByName() {
+        Tag tag = Tag.builder().name("Web Application").build();
+        tagRepository.save(tag);
+        Tag result = tagRepository.findTagByName("Web Application");
+        assertThat(result).isEqualTo(tag);
     }
 }

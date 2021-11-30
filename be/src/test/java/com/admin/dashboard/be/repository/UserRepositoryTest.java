@@ -1,6 +1,7 @@
 package com.admin.dashboard.be.repository;
 
 import com.admin.dashboard.be.entity.User;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,6 +17,11 @@ class UserRepositoryTest {
     UserRepository userRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAll();
+    }
 
     @Test
     void injectedComponentsUserRepositoryAreNotNull() {

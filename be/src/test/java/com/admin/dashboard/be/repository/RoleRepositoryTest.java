@@ -1,6 +1,7 @@
 package com.admin.dashboard.be.repository;
 
 import com.admin.dashboard.be.entity.Role;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,6 +14,11 @@ class RoleRepositoryTest {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @AfterEach
+    void tearDown() {
+        roleRepository.deleteAll();
+    }
 
     @Test
     void injectedComponentsRoleRepositoryAreNotNull() {

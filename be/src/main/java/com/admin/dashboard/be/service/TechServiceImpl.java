@@ -25,7 +25,7 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
-    public List<Tech> GetAllTechByProject(Long projectId) {
+    public List<Tech> getAllTechByProject(Long projectId) {
         Optional<Project> project = projectRepository.findById(projectId);
         if (project.isEmpty()) {
             return null;

@@ -16,6 +16,14 @@
 	<properties>
 		<java.version>15</java.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Maven MILESTONE Repository</name>
+			<url>https://repo.spring.io/libs-milestone</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

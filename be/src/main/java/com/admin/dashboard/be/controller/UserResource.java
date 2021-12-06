@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -52,11 +53,13 @@ public class UserResource {
     private final ModelMapper modelMapper;
 
     @GetMapping("/users")
+    @Cacheable(value = "users")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @GetMapping("user/{username}")
+    @Cacheable(value = "user", key="#username")
     public User getUserByUsername(@PathVariable("username") String username) throws ResourceNotFoundException {
         return  userRepository.findByUsername(username);
     }

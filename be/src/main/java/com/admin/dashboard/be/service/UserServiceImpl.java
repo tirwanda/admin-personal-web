@@ -12,6 +12,7 @@ import com.admin.dashboard.be.wrappers.ProfileImageWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -89,12 +90,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+//    @Cacheable("user")
     public User getUser(String username) {
         log.info("Fetching user {}", username);
         return userRepository.findByUsername(username);
     }
 
     @Override
+//    @Cacheable("users")
     public List<User> getUsers() {
         log.info("Fetching all user");
         return userRepository.findAll();

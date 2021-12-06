@@ -5,6 +5,7 @@ import com.admin.dashboard.be.entity.Tech;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.TechRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,7 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
+    @Cacheable("tech")
     public List<Tech> getAllTech() {
         return techRepository.findAll();
     }

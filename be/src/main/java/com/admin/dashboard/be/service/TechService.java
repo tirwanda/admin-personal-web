@@ -11,5 +11,5 @@ public interface TechService {
     List<Tech> saveBatch(Iterable<Tech> techList);
     Tech getTechById(Long techId);
     List<Tech> getTechByName(String name);
-    void deleteTech(Long techId);
+    String deleteTech(Long techId);
 }

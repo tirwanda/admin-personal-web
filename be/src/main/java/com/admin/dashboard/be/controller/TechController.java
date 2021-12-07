@@ -91,7 +91,7 @@ public class TechController {
     }
 
     @DeleteMapping("/tech/{id}")
-    public void removeTech(@PathVariable("id") Long techId) {
-        techService.deleteTech(techId);
+    public ResponseEntity<String> removeTech(@PathVariable("id") Long techId) {
+        return ResponseEntity.ok().body(techService.deleteTech(techId));
     }
 }

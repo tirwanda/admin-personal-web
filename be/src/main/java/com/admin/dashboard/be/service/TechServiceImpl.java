@@ -5,6 +5,7 @@ import com.admin.dashboard.be.entity.Tech;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.TechRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,6 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
-    @Cacheable("tech")
     public List<Tech> getAllTech() {
         return techRepository.findAll();
     }
@@ -46,6 +46,7 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
+    @Cacheable(value = "Tech", key = "#techId")
     public Tech getTechById(Long techId) {
         Optional<Tech> tech = techRepository.findById(techId);
         if (tech.isEmpty()) {
@@ -55,12 +56,15 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
+    @Cacheable(value = "Tech", key = "#name")
     public List<Tech> getTechByName(String name) {
         return techRepository.findByNameContains(name);
     }
 
     @Override
-    public void deleteTech(Long techId) {
+    @CacheEvict(value = "Tech", key = "#techId")
+    public String deleteTech(Long techId) {
         techRepository.deleteById(techId);
+        return "Tech is Removed";
     }
 }

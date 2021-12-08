@@ -7,6 +7,7 @@ import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.exception.ResourceNotFoundException;
 import com.admin.dashboard.be.repository.UserRepository;
+import com.admin.dashboard.be.service.RoleService;
 import com.admin.dashboard.be.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -49,6 +50,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/api")
 public class UserResource {
     private final UserService userService;
+    private final RoleService roleService;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
@@ -81,26 +83,6 @@ public class UserResource {
         User user = modelMapper.map(userDTO, User.class);
         responseData.setStatus(true);
         responseData.setPayload(userService.saveUser(user));
-        return ResponseEntity.created(uri).body(responseData);
-    }
-
-    @PostMapping("/role/save")
-    public ResponseEntity<ResponseData<Role>> saveRole(@Valid @RequestBody RoleDTO roleDTO, Errors errors) {
-        URI uri = URI.create(ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/role/save").toUriString());
-        ResponseData<Role> responseData = new ResponseData<>();
-        if (errors.hasErrors()) {
-            for (ObjectError error : errors.getAllErrors()) {
-                responseData.getMessages().add(error.getDefaultMessage());
-            }
-            responseData.setStatus(false);
-            responseData.setPayload(null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
-        }
-        Role role = modelMapper.map(roleDTO, Role.class);
-        responseData.setStatus(true);
-        responseData.setPayload(userService.saveRole(role));
         return ResponseEntity.created(uri).body(responseData);
     }
 

@@ -72,8 +72,11 @@ public class RoleController {
             responseData.setPayload(null);
         }
 
+        Role roleUpdate = roleService.getRole(role.getId());
+        roleUpdate.setName(role.getName());
+
         responseData.setStatus(true);
-        responseData.setPayload(roleService.saveRole(role));
+        responseData.setPayload(roleService.saveRole(roleUpdate));
         return ResponseEntity.ok().body(responseData);
     }
 

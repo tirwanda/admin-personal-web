@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -61,6 +63,7 @@ public class User implements Serializable {
             name = "user_id",
             referencedColumnName = "userId"
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Project> projects;
 
     @ManyToMany(fetch = FetchType.EAGER)

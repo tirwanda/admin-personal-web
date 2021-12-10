@@ -1,13 +1,11 @@
 package com.admin.dashboard.be.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Proxy;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
@@ -22,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
+@Proxy(lazy = false)
 //@JsonIdentityInfo(
 //        generator = ObjectIdGenerators.PropertyGenerator.class,
 //        property = "projectId"
@@ -50,6 +49,7 @@ public class Project implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
 //    @JsonManagedReference
+    @JsonIgnore
     private List<Tech> techList = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -59,7 +59,7 @@ public class Project implements Serializable {
     private String github;
     private String demo;
 
-    @OneToMany(targetEntity = ProjectImage.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = ProjectImage.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "Project_Image_FK", referencedColumnName = "projectId")
     private List<ProjectImage> projectImageList;
 }

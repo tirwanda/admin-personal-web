@@ -9,6 +9,7 @@ import com.admin.dashboard.be.repository.TagRepository;
 import com.admin.dashboard.be.repository.TechRepository;
 import com.admin.dashboard.be.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -74,11 +75,13 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    @Cacheable(value = "Project", key = "#title")
     public Iterable<Project> getProjectByTitleContains(String title, Pageable pageable) {
         return projectRepository.findProjectByTitleContains(title, pageable);
     }
 
     @Override
+    @Cacheable(value = "Project", key = "#userId")
     public List<Project> getProjectsByUserId(Long userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
@@ -88,25 +91,29 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    @Cacheable("Projects")
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
 
     @Override
+    @Cacheable(value = "Project", key = "#tagId")
     public List<Project> findProjectByTag(Long tagId) {
         return projectRepository.findProjectByTag(tagId);
     }
 
     @Override
+    @Cacheable(value = "Project", key = "#techId")
     public List<Project> findProjectByTech(Long techId) {
         Tech tech = techService.getTechById(techId);
         if (tech == null) {
-            return new ArrayList<Project>();
+            return new ArrayList<>();
         }
         return projectRepository.findProjectByTech(tech);
     }
 
     @Override
+    @Cacheable(value = "Project", key = "#projectId")
     public Project getProject(Long projectId) {
         return projectRepository.findProjectByProjectId(projectId);
     }

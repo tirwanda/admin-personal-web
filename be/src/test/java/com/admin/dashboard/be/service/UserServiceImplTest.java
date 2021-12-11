@@ -40,7 +40,7 @@ class UserServiceImplTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        userService = new UserServiceImpl(userRepository, roleRepository, projectRepository, passwordEncoder, profileImageRepository);
+        userService = new UserServiceImpl(userRepository, roleRepository, projectRepository, passwordEncoder);
     }
 
     @AfterEach

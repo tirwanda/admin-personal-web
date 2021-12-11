@@ -17,4 +17,5 @@ public interface UserService {
     List<User> getUsers();
     User uploadUserProfileImage(User user);
     void saveProjectToUser(Long projectId, String username);
+    User getUserByUserId(Long userId);
 }

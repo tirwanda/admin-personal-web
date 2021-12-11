@@ -1,17 +1,13 @@
 package com.admin.dashboard.be.service;
 
-import com.admin.dashboard.be.entity.ProfileImage;
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
-import com.admin.dashboard.be.repository.ProfileImageRepository;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.RoleRepository;
 import com.admin.dashboard.be.repository.UserRepository;
-import com.admin.dashboard.be.wrappers.ProfileImageWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.entity.ContentType;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.AbstractDocument;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -35,7 +29,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ProfileImageRepository profileImageRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,9 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
 
         return new org.springframework.security.core.userdetails
                 .User(user.getUsername(), user.getPassword(), authorities);
@@ -66,7 +57,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User updateUser(User user) {
-        User userUpdate = userRepository.findById(user.getUserId()).get();
+        User userUpdate = userRepository.findById(user.getUserId()).orElse(null);
+        assert userUpdate != null;
         userUpdate.setName(user.getName());
         userUpdate.setTitle(user.getTitle());
         userUpdate.setAbout(user.getAbout());
@@ -90,14 +82,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-//    @Cacheable("user")
+    @Cacheable(value = "User", key = "#username")
     public User getUser(String username) {
         log.info("Fetching user {}", username);
         return userRepository.findByUsername(username);
     }
 
     @Override
-//    @Cacheable("users")
+    @Cacheable("Users")
     public List<User> getUsers() {
         log.info("Fetching all user");
         return userRepository.findAll();
@@ -115,5 +107,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Project project = projectRepository.findProjectByProjectId(projectId);
 
         user.getProjects().add(project);
+    }
+
+    @Override
+    @Cacheable(value = "User", key = "#userId")
+    public User getUserByUserId(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 }

@@ -69,10 +69,5 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(
-//            name = "profile_image_id",
-//            referencedColumnName = "profileImageId"
-//    )
     private String profileImage;
 }

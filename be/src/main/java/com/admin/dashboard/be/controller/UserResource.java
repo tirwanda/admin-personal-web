@@ -1,23 +1,18 @@
 package com.admin.dashboard.be.controller;
 
 import com.admin.dashboard.be.dto.ResponseData;
-import com.admin.dashboard.be.dto.RoleDTO;
+import com.admin.dashboard.be.dto.RoleToUserForm;
 import com.admin.dashboard.be.dto.UserDTO;
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
-import com.admin.dashboard.be.exception.ResourceNotFoundException;
-import com.admin.dashboard.be.repository.UserRepository;
-import com.admin.dashboard.be.service.RoleService;
 import com.admin.dashboard.be.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -50,20 +45,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/api")
 public class UserResource {
     private final UserService userService;
-    private final RoleService roleService;
-    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     @GetMapping("/users")
-    @Cacheable(value = "users")
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok().body(userService.getUsers());
+    public ResponseEntity<ResponseData<List<User>>> getUsers() {
+        ResponseData<List<User>> responseData = new ResponseData<>();
+        responseData.setStatus(true);
+        responseData.setPayload(userService.getUsers());
+        return ResponseEntity.ok().body(responseData);
     }
 
     @GetMapping("user/{username}")
-    @Cacheable(value = "user", key="#username")
-    public User getUserByUsername(@PathVariable("username") String username) throws ResourceNotFoundException {
-        return  userRepository.findByUsername(username);
+    public User getUserByUsername(@PathVariable("username") String username) {
+        return  userService.getUser(username);
     }
 
     @PostMapping("/user/save")
@@ -106,8 +100,8 @@ public class UserResource {
                                           @RequestParam("fileImage") MultipartFile multipartFile)
             throws IOException {
         ResponseData<User> responseData = new ResponseData<>();
-        User user = userRepository.findById(userId).get();
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        User user = userService.getUserByUserId(userId);
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
         user.setProfileImage(fileName);
         String uploadDir = "/user/profile/" + user.getUserId();
@@ -171,8 +165,3 @@ public class UserResource {
     }
 }
 
-@Data
-class RoleToUserForm {
-    private String username;
-    private String roleName;
-}

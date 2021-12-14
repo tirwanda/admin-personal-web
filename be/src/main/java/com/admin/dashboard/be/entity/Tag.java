@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Tag implements Serializable {
+public class Tag extends BaseEntity<String> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

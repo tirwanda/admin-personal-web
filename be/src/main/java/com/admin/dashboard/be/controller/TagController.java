@@ -38,7 +38,7 @@ public class TagController {
         Tag tag = modelMapper.map(tagDTO, Tag.class);
         responseData.setStatus(true);
         responseData.setPayload(tagService.saveTag(tag));
-        return ResponseEntity.ok(responseData);
+        return ResponseEntity.ok().body(responseData);
     }
 
     @GetMapping("/tags")

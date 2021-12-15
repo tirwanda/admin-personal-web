@@ -1,5 +1,6 @@
 package com.admin.dashboard.be.entity;
 
+import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -14,8 +15,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
+@Data
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity<T> {
+public class BaseEntity<T> implements Serializable{
 
     @CreatedBy
     protected T createdBy;

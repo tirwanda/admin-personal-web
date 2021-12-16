@@ -7,7 +7,6 @@ import com.admin.dashboard.be.entity.Tech;
 import com.admin.dashboard.be.service.TechServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

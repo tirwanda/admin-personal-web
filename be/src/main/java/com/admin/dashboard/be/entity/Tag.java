@@ -1,10 +1,7 @@
 package com.admin.dashboard.be.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +31,9 @@ public class Tag extends BaseEntity<String> implements Serializable {
 
     @JsonIgnore
     @OneToMany(
-            mappedBy = "tag"
+            mappedBy = "tag",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<Project> projects = new ArrayList<>();
 }

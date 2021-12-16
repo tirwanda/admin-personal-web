@@ -1,6 +1,5 @@
 package com.admin.dashboard.be;
 
-import com.admin.dashboard.be.utils.AuditorAwareImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

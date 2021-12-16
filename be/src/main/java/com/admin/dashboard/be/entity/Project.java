@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Proxy;
-import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -21,10 +20,6 @@ import java.util.List;
 @Entity
 @Builder
 @Proxy(lazy = false)
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "projectId"
-//)
 public class Project implements Serializable {
 
     @Serial
@@ -48,7 +43,6 @@ public class Project implements Serializable {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
-//    @JsonManagedReference
     @JsonIgnore
     private List<Tech> techList = new ArrayList<>();
 
@@ -62,4 +56,8 @@ public class Project implements Serializable {
     @OneToMany(targetEntity = ProjectImage.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "Project_Image_FK", referencedColumnName = "projectId")
     private List<ProjectImage> projectImageList;
+
+    public void removeTag() {
+        this.setTag(null);
+    }
 }

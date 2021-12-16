@@ -6,6 +6,7 @@ import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,14 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public void deleteTag(Long tagId) {
+    @CacheEvict(value = "Tag", key = "#tagId")
+    public String deleteTag(Long tagId) {
+        Optional<Tag> tag = tagRepository.findById(tagId);
+        List<Project> projects = tag.orElseThrow().getProjects();
+        for (Project project : projects) {
+            project.removeTag();
+        }
         tagRepository.deleteById(tagId);
+        return "Tag is Removed";
     }
 }

@@ -9,5 +9,5 @@ public interface TagService {
     Tag getTagByProject(Long projectId);
     Tag getTag(Long tagId);
     List<Tag> getAllTags();
-    void deleteTag(Long tagId);
+    String deleteTag(Long tagId);
 }

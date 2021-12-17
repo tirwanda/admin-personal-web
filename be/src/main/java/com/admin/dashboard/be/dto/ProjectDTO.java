@@ -15,7 +15,7 @@ public class ProjectDTO {
     private String title;
 
     @NotEmpty(message = "Description is required")
-    private String description;
+    private String descriptions;
 
     private List<Tech> techList = new ArrayList<>();
     private Tag tag;

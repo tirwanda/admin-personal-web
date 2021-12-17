@@ -15,10 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,12 +61,12 @@ class TechServiceImplTest {
                 .projectId(1L)
                 .title("Project1")
                 .descriptions("This is example of project")
-                .teches(Arrays.asList(tech, tech2))
+                .techList(Set.of(tech, tech2))
                 .build();
         Mockito.when(projectRepository.findById(1L)).thenReturn(Optional.ofNullable(project));
-        List<Tech> actualTechList = techService.getAllTechByProject(1L);
+        Set<Tech> actualTechList = techService.getAllTechByProject(1L);
         assert project != null;
-        assertThat(actualTechList).isEqualTo(project.getTeches());
+        assertThat(actualTechList).isEqualTo(project.getTechList());
     }
 
     @Test

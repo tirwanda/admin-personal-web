@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -37,13 +40,13 @@ public class Project implements Serializable {
     private String descriptions;
 
     @ManyToMany
+    @Fetch(FetchMode.JOIN)
     @JoinTable (
             name = "project_tech_map",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
-    @JsonIgnore
-    private List<Tech> teches;
+    private Set<Tech> techList;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tag_id", referencedColumnName = "tagId")
@@ -61,12 +64,12 @@ public class Project implements Serializable {
     }
 
     public void addTech(Tech tech) {
-        this.teches.add(tech);
+        this.techList.add(tech);
         tech.getProjects().add(this);
     }
 
     public void removeTech(Tech tech) {
-        this.teches.remove(tech);
+        this.techList.remove(tech);
         tech.getProjects().remove(this);
     }
 }

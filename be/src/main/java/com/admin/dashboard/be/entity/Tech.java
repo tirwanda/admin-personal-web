@@ -40,11 +40,11 @@ public class Tech extends BaseEntity<String> implements Serializable {
 
     public void addProject(Project project) {
         this.projects.add(project);
-        project.getTeches().add(this);
+        project.getTechList().add(this);
     }
 
     public void removeProject(Project project) {
         this.projects.remove(project);
-        project.getTeches().remove(this);
+        project.getTechList().remove(this);
     }
 }

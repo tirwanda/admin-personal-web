@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -44,7 +43,7 @@ public class Project implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
     @JsonIgnore
-    private List<Tech> techList = new ArrayList<>();
+    private List<Tech> teches;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tag_id", referencedColumnName = "tagId")
@@ -59,5 +58,15 @@ public class Project implements Serializable {
 
     public void removeTag() {
         this.setTag(null);
+    }
+
+    public void addTech(Tech tech) {
+        this.teches.add(tech);
+        tech.getProjects().add(this);
+    }
+
+    public void removeTech(Tech tech) {
+        this.teches.remove(tech);
+        tech.getProjects().remove(this);
     }
 }

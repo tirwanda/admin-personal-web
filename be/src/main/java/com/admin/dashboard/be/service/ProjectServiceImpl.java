@@ -70,7 +70,7 @@ public class ProjectServiceImpl implements ProjectService{
         if (project.isEmpty() || tech.isEmpty()) {
             return null;
         }
-        project.get().getTechList().add(tech.get());
+        project.get().getTeches().add(tech.get());
         return project.get();
     }
 

@@ -32,7 +32,7 @@ public class TechServiceImpl implements TechService{
         if (project.isEmpty()) {
             return null;
         }
-        return project.get().getTechList();
+        return project.get().getTeches();
     }
 
     @Override

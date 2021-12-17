@@ -1,10 +1,7 @@
 package com.admin.dashboard.be.entity;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
@@ -13,18 +10,16 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @RedisHash("Tech")
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "techId"
-//)
-public class Tech implements Serializable {
+public class Tech extends BaseEntity<String> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -38,9 +33,18 @@ public class Tech implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "techList")
-//    @JsonBackReference
     @JsonIgnore
-    private List<Project> projects = new ArrayList<>();
+    private Set<Project> projects;
 
     private String imageURL;
+
+    public void addProject(Project project) {
+        this.projects.add(project);
+        project.getTeches().add(this);
+    }
+
+    public void removeProject(Project project) {
+        this.projects.remove(project);
+        project.getTeches().remove(this);
+    }
 }

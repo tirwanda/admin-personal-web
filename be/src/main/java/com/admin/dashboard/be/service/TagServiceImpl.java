@@ -62,4 +62,24 @@ public class TagServiceImpl implements TagService{
         tagRepository.deleteById(tagId);
         return "Tag is Removed";
     }
+
+    @Override
+    public String addProjectToTag(Long tagId, Long projectId) {
+        Tag tag = tagRepository.findById(tagId).orElse(null);
+        Project project = projectRepository.findById(projectId).orElse(null);
+
+        assert tag != null;
+        tag.addProjectToTag(project);
+        return "Success added Project to Tag";
+    }
+
+    @Override
+    public String removeProjectFromTag(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElse(null);
+        assert project != null;
+        Tag tag = project.getTag();
+
+        tag.removeProjectFromTag(project);
+        return "Success Deleting Project from Tag";
+    }
 }

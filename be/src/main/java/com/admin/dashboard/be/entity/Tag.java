@@ -32,8 +32,17 @@ public class Tag extends BaseEntity<String> implements Serializable {
     @JsonIgnore
     @OneToMany(
             mappedBy = "tag",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
     private List<Project> projects = new ArrayList<>();
+
+    public void addProjectToTag(Project project) {
+        this.projects.add(project);
+        project.setTag(this);
+    }
+
+    public void removeProjectFromTag(Project project) {
+        this.projects.remove(project);
+        project.removeTag();
+    }
 }

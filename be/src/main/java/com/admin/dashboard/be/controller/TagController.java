@@ -76,6 +76,25 @@ public class TagController {
         return ResponseEntity.ok(responseData);
     }
 
+    @PutMapping("/tag/{tagId}/add/{projectId}")
+    public ResponseEntity<ResponseData<String>> addProjectToTag(@PathVariable("tagId") Long tagId,
+                                                                @PathVariable("projectId") Long projectId) {
+        ResponseData<String> responseData = new ResponseData<>();
+
+        responseData.setStatus(true);
+        responseData.setPayload(tagService.addProjectToTag(tagId, projectId));
+        return ResponseEntity.ok(responseData);
+    }
+
+    @PutMapping("/tag/remove-project/{projectId}")
+    public ResponseEntity<ResponseData<String>> remcveProjectFromTag(@PathVariable("projectId") Long projectId) {
+        ResponseData<String> responseData = new ResponseData<>();
+
+        responseData.setStatus(true);
+        responseData.setPayload(tagService.removeProjectFromTag(projectId));
+        return ResponseEntity.ok(responseData);
+    }
+
     @DeleteMapping("/tag/{id}")
     public ResponseEntity<String> removeTag(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(tagService.deleteTag(id));

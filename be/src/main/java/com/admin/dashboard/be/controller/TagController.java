@@ -87,7 +87,7 @@ public class TagController {
     }
 
     @PutMapping("/tag/remove-project/{projectId}")
-    public ResponseEntity<ResponseData<String>> remcveProjectFromTag(@PathVariable("projectId") Long projectId) {
+    public ResponseEntity<ResponseData<String>> removeProjectFromTag(@PathVariable("projectId") Long projectId) {
         ResponseData<String> responseData = new ResponseData<>();
 
         responseData.setStatus(true);

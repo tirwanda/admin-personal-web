@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +27,10 @@ public class TechServiceImpl implements TechService{
     }
 
     @Override
-    public Set<Tech> getAllTechByProject(Long projectId) {
-        Optional<Project> project = projectRepository.findById(projectId);
-        if (project.isEmpty()) {
-            return null;
-        }
-        return project.get().getTechList();
+    public List<Tech> getAllTechByProject(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElse(null);
+        assert project != null;
+        return project.getTechList();
     }
 
     @Override
@@ -66,7 +63,7 @@ public class TechServiceImpl implements TechService{
     @CacheEvict(value = "Tech", key = "#techId")
     public String deleteTech(Long techId) {
         Tech tech = techRepository.findById(techId).orElseThrow();
-        Set<Project> projects = tech.getProjects();
+        List<Project> projects = tech.getProjects();
 
         for (Project project : projects) {
             project.removeTech(tech);

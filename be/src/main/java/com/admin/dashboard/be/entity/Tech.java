@@ -34,7 +34,7 @@ public class Tech extends BaseEntity<String> implements Serializable {
 
     @ManyToMany(mappedBy = "techList")
     @JsonIgnore
-    private Set<Project> projects;
+    private List<Project> projects = new ArrayList<>();
 
     private String imageURL;
 

@@ -12,6 +12,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,13 +41,13 @@ public class Project implements Serializable {
     private String descriptions;
 
     @ManyToMany
-    @Fetch(FetchMode.JOIN)
+//    @Fetch(FetchMode.JOIN)
     @JoinTable (
             name = "project_tech_map",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
-    private Set<Tech> techList;
+    private List<Tech> techList = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tag_id", referencedColumnName = "tagId")

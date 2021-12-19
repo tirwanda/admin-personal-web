@@ -65,13 +65,19 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public Project addTechToProject(Long techId, Long projectId) {
-        Optional<Project> project = projectRepository.findById(projectId);
-        Optional<Tech> tech = techRepository.findById(techId);
-        if (project.isEmpty() || tech.isEmpty()) {
-            return null;
-        }
-        project.get().getTechList().add(tech.get());
-        return project.get();
+//        Optional<Project> project = projectRepository.findById(projectId);
+//        Optional<Tech> tech = techRepository.findById(techId);
+//        if (project.isEmpty() || tech.isEmpty()) {
+//            return null;
+//        }
+//        project.get().getTechList().add(tech.get());
+//        return project.get();
+        Project project = projectRepository.findById(projectId).orElse(null);
+        Tech tech = techRepository.findById(techId).orElse(null);
+
+        assert project != null;
+        project.addTech(tech);
+        return project;
     }
 
     @Override

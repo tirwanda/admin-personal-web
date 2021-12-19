@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface TechService {
     Tech saveTech(Tech tech);
-    Set<Tech> getAllTechByProject(Long projectId);
+    List<Tech> getAllTechByProject(Long projectId);
     List<Tech> getAllTech();
     List<Tech> saveBatch(Iterable<Tech> techList);
     Tech getTechById(Long techId);

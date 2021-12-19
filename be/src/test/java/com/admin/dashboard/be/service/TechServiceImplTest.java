@@ -61,10 +61,10 @@ class TechServiceImplTest {
                 .projectId(1L)
                 .title("Project1")
                 .descriptions("This is example of project")
-                .techList(Set.of(tech, tech2))
+                .techList(Arrays.asList(tech, tech2))
                 .build();
         Mockito.when(projectRepository.findById(1L)).thenReturn(Optional.ofNullable(project));
-        Set<Tech> actualTechList = techService.getAllTechByProject(1L);
+        List<Tech> actualTechList = techService.getAllTechByProject(1L);
         assert project != null;
         assertThat(actualTechList).isEqualTo(project.getTechList());
     }

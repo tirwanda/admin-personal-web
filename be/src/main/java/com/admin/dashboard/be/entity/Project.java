@@ -6,23 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
-@Proxy(lazy = false)
 public class Project implements Serializable {
 
     @Serial
@@ -40,8 +36,8 @@ public class Project implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String descriptions;
 
-    @ManyToMany
-//    @Fetch(FetchMode.JOIN)
+    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinTable (
             name = "project_tech_map",
             joinColumns = @JoinColumn(name = "project_id"),

@@ -62,11 +62,14 @@ public class TechServiceImpl implements TechService{
     @Override
     @CacheEvict(value = "Tech", key = "#techId")
     public String deleteTech(Long techId) {
-        Tech tech = techRepository.findById(techId).orElseThrow();
+        Tech tech = techRepository.findById(techId).orElse(null);
+
+        assert tech != null;
         List<Project> projects = tech.getProjects();
 
         for (Project project : projects) {
-            project.removeTech(tech);
+//            project.removeTech(tech);
+            tech.removeProject(project);
         }
 
         techRepository.deleteById(techId);

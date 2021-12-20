@@ -111,10 +111,16 @@ public class ProjectController {
         return ResponseEntity.ok(responseData);
     }
 
-    @PutMapping("/{techId}/addTechToProject/{projectId}")
+    @PutMapping("/{techId}/add-tech-to-project/{projectId}")
     public ResponseEntity<Project> saveTechToProject(@PathVariable("techId") Long techId,
                                                      @PathVariable("projectId") Long projectId) {
         return ResponseEntity.ok(projectService.addTechToProject(techId, projectId));
+    }
+
+    @PutMapping("/{techId}/remove-tech-from-project/{projectId}")
+    public ResponseEntity<String> removeTechFromProject(@PathVariable("techId") Long techId,
+                                                     @PathVariable("projectId") Long projectId) {
+        return ResponseEntity.ok(projectService.removeTechFromProject(techId, projectId));
     }
 
     @DeleteMapping("/project/{id}")

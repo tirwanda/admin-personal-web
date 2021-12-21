@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.persistence.EntityManager;
 import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -26,6 +27,8 @@ class TechServiceImplTest {
     @Mock private ProjectRepository projectRepository;
     @Mock private ProjectServiceImpl projectService;
 
+    private EntityManager entityManager;
+
     @InjectMocks
     private TechServiceImpl techService;
     private AutoCloseable autoCloseable;
@@ -33,7 +36,7 @@ class TechServiceImplTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        techService = new TechServiceImpl(techRepository, projectRepository);
+        techService = new TechServiceImpl(techRepository, projectRepository, entityManager);
     }
 
     @AfterEach

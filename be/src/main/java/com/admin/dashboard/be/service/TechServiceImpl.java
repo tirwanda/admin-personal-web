@@ -9,7 +9,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ public class TechServiceImpl implements TechService{
 
     private final TechRepository techRepository;
     private final ProjectRepository projectRepository;
+    private final EntityManager entityManager;
 
     @Override
     public Tech saveTech(Tech tech) {
@@ -68,8 +71,8 @@ public class TechServiceImpl implements TechService{
         List<Project> projects = tech.getProjects();
 
         for (Project project : projects) {
-//            project.removeTech(tech);
-            tech.removeProject(project);
+            project.getTechList().remove(tech);
+            entityManager.merge(project);
         }
 
         techRepository.deleteById(techId);

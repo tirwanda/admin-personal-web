@@ -15,7 +15,7 @@ public interface UserService {
     void addRoleToUser(String username, String roleName);
     User getUser(String username);
     List<User> getUsers();
-    User uploadUserProfileImage(User user);
+    void uploadUserProfileImage(Long userId, String fileName);
     void saveProjectToUser(Long projectId, String username);
     User getUserByUserId(Long userId);
 }

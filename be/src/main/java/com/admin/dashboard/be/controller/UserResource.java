@@ -15,23 +15,21 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,6 +44,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserResource {
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private static final String UPLOADED_PATH =
+            "E:/Software-Development/Learn Website/Personal Website/Admin Personal Website/fe/src/assets/images";
 
     @GetMapping("/users")
     public ResponseEntity<ResponseData<List<User>>> getUsers() {
@@ -96,30 +96,30 @@ public class UserResource {
     }
 
     @PostMapping(value = "/upload/image/{userId}")
-    public ResponseEntity<ResponseData<User>> updateImage(@PathVariable("userId") Long userId,
-                                          @RequestParam("fileImage") MultipartFile multipartFile)
-            throws IOException {
-        ResponseData<User> responseData = new ResponseData<>();
-        User user = userService.getUserByUserId(userId);
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+    public String updateImage(@PathVariable("userId") Long userId,
+                                                          @RequestParam("fileImage") MultipartFile multipartFile,
+                                                          RedirectAttributes redirectAttributes){
 
-        user.setProfileImage(fileName);
-        String uploadDir = "/user/profile/" + user.getUserId();
-        Path uploadPath = Paths.get(uploadDir);
-
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+        if (multipartFile.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message","Please Select a file");
+//            return "redirect:status";
+            return "Please Select a Image";
         }
 
-        try (InputStream inputStream = multipartFile.getInputStream()){
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            responseData.setStatus(true);
-            responseData.setPayload(userService.uploadUserProfileImage(user));
-            return ResponseEntity.ok(responseData);
+        try {
+            byte[] bytes = multipartFile.getBytes();
+            Path path = Paths.get(UPLOADED_PATH + multipartFile.getOriginalFilename());
+            Files.write(path, bytes);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "Success Uploaded " + multipartFile.getOriginalFilename());
         } catch (IOException e) {
-            throw new IOException("Could not save uploaded file: " + fileName);
+            e.printStackTrace();
         }
+
+        userService.uploadUserProfileImage(userId, multipartFile.getOriginalFilename());
+        // return "redirect:status";
+        return "Success Uploaded an Image";
     }
 
     @GetMapping("token/refresh")

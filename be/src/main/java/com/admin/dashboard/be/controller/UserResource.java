@@ -45,7 +45,7 @@ public class UserResource {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private static final String UPLOADED_PATH =
-            "E:/Software-Development/Learn Website/Personal Website/Admin Personal Website/fe/src/assets/images";
+            "E:/Software-Development/Learn Website/Personal Website/Admin Personal Website/fe/src/assets/images/";
 
     @GetMapping("/users")
     public ResponseEntity<ResponseData<List<User>>> getUsers() {

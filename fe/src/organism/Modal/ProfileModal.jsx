@@ -48,7 +48,7 @@ const ProfileModal = ({ showModal, setShowModal, user, updateUserData }) => {
 		const onDrop = useCallback((acceptedFiles) => {
 			const file = acceptedFiles[0];
 			const formData = new FormData();
-			formData.append('file', file);
+			formData.append('fileImage', file);
 			uploadImage(formData, value.userId)
 				.then(() => {
 					console.log('file uploaded successfuly');

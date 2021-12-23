@@ -11,6 +11,8 @@ import java.util.List;
 
 @Data
 public class ProjectDTO {
+    private Long projectId;
+
     @NotEmpty(message = "Title is required")
     private String title;
 

@@ -98,7 +98,7 @@ public class ProjectController {
 
         Project project = modelMapper.map(projectDTO, Project.class);
         responseData.setStatus(true);
-        responseData.setPayload(projectService.saveProject(project));
+        responseData.setPayload(projectService.updateProject(project));
         return ResponseEntity.ok(responseData);
     }
 

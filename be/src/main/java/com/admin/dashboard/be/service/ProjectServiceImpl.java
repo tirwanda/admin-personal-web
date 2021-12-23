@@ -85,6 +85,19 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    public Project updateProject(Project project) {
+        Project projectUpdate = projectRepository.findById(project.getProjectId()).orElse(null);
+
+        assert projectUpdate != null;
+        projectUpdate.setDescriptions(project.getDescriptions());
+        projectUpdate.setTitle(project.getTitle());
+        projectUpdate.setDemo(project.getDemo());
+        projectUpdate.setGithub(project.getGithub());
+        projectRepository.save(projectUpdate);
+        return projectUpdate;
+    }
+
+    @Override
     @Cacheable(value = "Project", key = "#title")
     public Iterable<Project> getProjectByTitleContains(String title, Pageable pageable) {
         return projectRepository.findProjectByTitleContains(title, pageable);

@@ -19,4 +19,5 @@ public interface ProjectService {
     List<Project> findProjectByTech(Long techId);
     Project getProject(Long projectId);
     String removeTechFromProject(Long techId, Long projectId);
+    Project updateProject(Project project);
 }

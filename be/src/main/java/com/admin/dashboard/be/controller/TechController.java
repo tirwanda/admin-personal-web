@@ -74,7 +74,7 @@ public class TechController {
     }
 
     @PutMapping("/tech")
-    public ResponseEntity<ResponseData<Tech>> updateTech(@RequestBody Tech tech, Errors errors) {
+    public ResponseEntity<ResponseData<Tech>> updateTech(@RequestBody TechDTO techDTO, Errors errors) {
         ResponseData<Tech> responseData = new ResponseData<>();
         if (errors.hasErrors()) {
             for (ObjectError error : errors.getAllErrors()) {
@@ -84,8 +84,11 @@ public class TechController {
             responseData.setPayload(null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
+
+        Tech tech = modelMapper.map(techDTO, Tech.class);
+
         responseData.setStatus(true);
-        responseData.setPayload(techService.saveTech(tech));
+        responseData.setPayload(techService.updateTech(tech));
         return ResponseEntity.ok(responseData);
     }
 

@@ -13,4 +13,5 @@ public interface TechService {
     Tech getTechById(Long techId);
     List<Tech> getTechByName(String name);
     String deleteTech(Long techId);
+    Tech updateTech(Tech tech);
 }

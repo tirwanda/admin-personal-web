@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,5 +76,16 @@ public class TechServiceImpl implements TechService{
 
         techRepository.deleteById(techId);
         return "Tech is Removed";
+    }
+
+    @Override
+    public Tech updateTech(Tech tech) {
+        Tech techUpdate = techRepository.findById(tech.getTechId()).orElse(null);
+
+        assert techUpdate != null;
+        techUpdate.setName(tech.getName());
+        techUpdate.setImageURL(tech.getImageURL());
+        techRepository.save(techUpdate);
+        return techUpdate;
     }
 }

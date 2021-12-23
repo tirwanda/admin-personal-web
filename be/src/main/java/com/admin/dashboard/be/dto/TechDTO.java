@@ -9,8 +9,11 @@ import java.util.List;
 
 @Data
 public class TechDTO {
+
+    private Long techId;
     @NotEmpty(message = "Tech name is required")
     private String name;
+    private String imageURL;
 
     private List<Project> projects = new ArrayList<>();
 }

@@ -82,4 +82,14 @@ public class TagServiceImpl implements TagService{
         tag.removeProjectFromTag(project);
         return "Success Deleting Project from Tag";
     }
+
+    @Override
+    public Tag updateTag(Tag tag) {
+        Tag tagUpdate = tagRepository.findById(tag.getTagId()).orElse(null);
+
+        assert tagUpdate != null;
+        tagUpdate.setName(tag.getName());
+        tagRepository.save(tagUpdate);
+        return tagUpdate;
+    }
 }

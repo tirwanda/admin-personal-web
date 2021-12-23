@@ -59,7 +59,7 @@ public class TagController {
     }
 
     @PutMapping("/tag")
-    public ResponseEntity<ResponseData<Tag>> updateTag(@Valid @RequestBody Tag tag, Errors errors) {
+    public ResponseEntity<ResponseData<Tag>> updateTag(@Valid @RequestBody TagDTO tagDTO, Errors errors) {
         ResponseData<Tag> responseData = new ResponseData<>();
 
         if (errors.hasErrors()) {
@@ -71,8 +71,9 @@ public class TagController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
 
+        Tag tag = modelMapper.map(tagDTO, Tag.class);
         responseData.setStatus(true);
-        responseData.setPayload(tagService.saveTag(tag));
+        responseData.setPayload(tagService.updateTag(tag));
         return ResponseEntity.ok(responseData);
     }
 

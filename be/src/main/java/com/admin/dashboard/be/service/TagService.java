@@ -12,4 +12,5 @@ public interface TagService {
     String deleteTag(Long tagId);
     String addProjectToTag(Long tagId, Long projectId);
     String removeProjectFromTag(Long projectId);
+    Tag updateTag(Tag tag);
 }

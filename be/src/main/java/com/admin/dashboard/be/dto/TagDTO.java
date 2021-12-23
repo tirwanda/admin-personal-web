@@ -9,6 +9,8 @@ import java.util.List;
 
 @Data
 public class TagDTO {
+    private Long tagId;
+
     @NotEmpty(message = "Tag name is required")
     private String name;
 

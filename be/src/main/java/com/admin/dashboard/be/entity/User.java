@@ -1,9 +1,6 @@
 package com.admin.dashboard.be.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -15,12 +12,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements Serializable {
+public class User extends BaseEntity<String> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

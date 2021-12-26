@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final TechRepository techRepository;
 
     private final TechService techService;
+    private final ProjectImageService projectImageService;
 
     @Override
     public Project saveProject(Project project) {
@@ -95,6 +97,18 @@ public class ProjectServiceImpl implements ProjectService{
         projectUpdate.setGithub(project.getGithub());
         projectRepository.save(projectUpdate);
         return projectUpdate;
+    }
+
+    @Override
+    public Project uploadProjectImage(Long projectId, MultipartFile[] files) {
+        Project project = projectRepository.findById(projectId).orElse(null);
+
+        assert project != null;
+        for (MultipartFile file : files) {
+            project.getProjectImageList().add(projectImageService.saveProjectImage(file));
+        }
+
+        return project;
     }
 
     @Override

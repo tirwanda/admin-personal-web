@@ -1,8 +1,10 @@
 package com.admin.dashboard.be.service;
 
 import com.admin.dashboard.be.entity.Project;
+import com.admin.dashboard.be.entity.ProjectImage;
 import com.admin.dashboard.be.entity.User;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,4 +22,5 @@ public interface ProjectService {
     Project getProject(Long projectId);
     String removeTechFromProject(Long techId, Long projectId);
     Project updateProject(Project project);
+    Project uploadProjectImage(Long projectId, MultipartFile[] files);
 }

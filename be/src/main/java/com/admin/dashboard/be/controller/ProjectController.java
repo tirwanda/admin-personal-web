@@ -18,20 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ProjectController {
+
     private final ProjectServiceImpl projectService;
     private final ModelMapper modelMapper;
-    private static final String UPLOADED_PATH =
-            "E:/Software-Development/Learn Website/Personal Website/Admin Personal Website/fe/src/assets/images/portfolios/";
 
     @PostMapping("/project/{userId}")
     public ResponseEntity<ResponseData<Project>> saveProject(@PathVariable("userId") Long userId,
@@ -68,26 +64,20 @@ public class ProjectController {
     }
 
     @PostMapping("/upload/images/{projectId}")
-    public String uploadImages(@PathVariable("projectId") Long projectId,
+    public ResponseEntity<ResponseData<Project>> uploadImages(@PathVariable("projectId") Long projectId,
                                                 @RequestParam("fileImage") MultipartFile[] multipartFile) {
-        try {
-            for (MultipartFile file : multipartFile) {
-                saveImage(file);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return "Success Uploaded Images";
-    }
+        ResponseData<Project> responseData = new ResponseData<>();
 
-    private void saveImage(MultipartFile file) {
-        try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_PATH + file.getOriginalFilename());
-            Files.write(path, bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (multipartFile.length == 0) {
+            responseData.setStatus(false);
+            responseData.setMessages(Collections.singletonList("Please Select a Image"));
+            responseData.setPayload(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
+
+        responseData.setStatus(true);
+        responseData.setPayload(projectService.uploadProjectImage(projectId, multipartFile));
+        return ResponseEntity.ok(responseData);
     }
 
     @GetMapping("/projects")

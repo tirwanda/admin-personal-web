@@ -1,6 +1,8 @@
 package com.admin.dashboard.be.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -63,6 +65,15 @@ public class User extends BaseEntity<String> implements Serializable {
     )
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Project> projects;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinTable(
+            name = "user_skill_map",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "skillId")
+    )
+    private List<Skill> skills = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();

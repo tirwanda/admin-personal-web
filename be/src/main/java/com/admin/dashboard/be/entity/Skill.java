@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Skill extends BaseEntity<String> implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long skillId;
 
+    @NotEmpty(message = "Skill name is required")
     private String name;
 
     private String imageUrl;

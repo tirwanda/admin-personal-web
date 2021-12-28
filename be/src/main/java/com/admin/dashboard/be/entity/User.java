@@ -79,4 +79,14 @@ public class User extends BaseEntity<String> implements Serializable {
     private Collection<Role> roles = new ArrayList<>();
 
     private String profileImage;
+
+    public void addSkill(Skill skill) {
+        this.skills.add(skill);
+        skill.getUsers().add(this);
+    }
+
+    public void removeSkill(Skill skill) {
+        this.skills.remove(skill);
+        skill.getUsers().remove(this);
+    }
 }

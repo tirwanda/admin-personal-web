@@ -18,4 +18,5 @@ public interface UserService {
     void uploadUserProfileImage(Long userId, String fileName);
     void saveProjectToUser(Long projectId, String username);
     User getUserByUserId(Long userId);
+    User addSkillToUser(Long userId, Long skillId);
 }

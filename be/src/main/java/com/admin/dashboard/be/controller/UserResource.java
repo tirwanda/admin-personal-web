@@ -34,6 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -92,6 +93,24 @@ public class UserResource {
 
         responseData.setStatus(true);
         responseData.setPayload(userService.updateUser(user));
+        return ResponseEntity.ok(responseData);
+    }
+
+    @PutMapping(value = "/user/{userId}/add-skill/{skillId}")
+    public ResponseEntity<ResponseData<User>> addSkillToUser(@PathVariable("userId") Long userId,
+                                                             @PathVariable("skillId") Long skillId) {
+        ResponseData<User> responseData = new ResponseData<>();
+        User user = userService.addSkillToUser(userId, skillId);
+
+        if (user == null) {
+            responseData.setStatus(false);
+            responseData.setMessages(List.of("User or Skill not Found"));
+            responseData.setPayload(null);
+            return ResponseEntity.status(BAD_REQUEST).body(responseData);
+        }
+
+        responseData.setStatus(true);
+        responseData.setPayload(user);
         return ResponseEntity.ok(responseData);
     }
 

@@ -2,9 +2,11 @@ package com.admin.dashboard.be.service;
 
 import com.admin.dashboard.be.entity.Project;
 import com.admin.dashboard.be.entity.Role;
+import com.admin.dashboard.be.entity.Skill;
 import com.admin.dashboard.be.entity.User;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.RoleRepository;
+import com.admin.dashboard.be.repository.SkillRepository;
 import com.admin.dashboard.be.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SkillRepository skillRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -116,5 +119,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Cacheable(value = "User", key = "#userId")
     public User getUserByUserId(Long userId) {
         return userRepository.findById(userId).orElse(null);
+    }
+
+    @Override
+    public User addSkillToUser(Long userId, Long skillId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Skill skill = skillRepository.findById(skillId).orElse(null);
+
+        assert user != null;
+        user.addSkill(skill);
+
+        return user;
     }
 }

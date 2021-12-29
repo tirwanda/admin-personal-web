@@ -1,10 +1,7 @@
 package com.admin.dashboard.be.service;
 
 import com.admin.dashboard.be.entity.User;
-import com.admin.dashboard.be.repository.ProfileImageRepository;
-import com.admin.dashboard.be.repository.ProjectRepository;
-import com.admin.dashboard.be.repository.RoleRepository;
-import com.admin.dashboard.be.repository.UserRepository;
+import com.admin.dashboard.be.repository.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +28,7 @@ class UserServiceImplTest {
     @Mock private RoleRepository roleRepository;
     @Mock private ProjectRepository projectRepository;
     @Mock private PasswordEncoder passwordEncoder;
+    @Mock private SkillRepository skillRepository;
     @Mock private ProfileImageRepository profileImageRepository;
 
     @InjectMocks
@@ -40,7 +38,13 @@ class UserServiceImplTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        userService = new UserServiceImpl(userRepository, roleRepository, projectRepository, passwordEncoder);
+        userService = new UserServiceImpl(
+                userRepository,
+                roleRepository,
+                projectRepository,
+                passwordEncoder,
+                skillRepository
+        );
     }
 
     @AfterEach

@@ -76,7 +76,7 @@ public class TestProjectRepository {
     }
 
     @Test
-    public void itShouldFindNoProjectIfRepositoryIsEmpty() {
+    public void itShouldFReturnFalseIfRepositoryIsEmpty() {
         List<Project> projects = projectRepository.findAll();
         Assertions.assertFalse(projects.isEmpty());
     }
@@ -101,5 +101,24 @@ public class TestProjectRepository {
         List<Project> projectList = projectRepository.findAll();
 
         Assertions.assertFalse(projectList.contains(project1));
+    }
+
+    @Test
+    public void itShouldUpdatingProject() {
+        Long projectId = project1.getProjectId();
+        Project projectWillUpdated = projectRepository.findProjectByProjectId(projectId);
+        projectWillUpdated.setTitle("Title is updated");
+        projectWillUpdated.setDescriptions("Description is updated");
+        projectWillUpdated.setGithub("Github is updated");
+        projectWillUpdated.setDemo("Demo is updated");
+
+        Project projectUpdated = projectRepository.save(projectWillUpdated);
+        Assertions.assertEquals(projectUpdated, projectRepository.findProjectByProjectId(projectId));
+    }
+
+    @Test
+    public void itShouldDeleteAllProject() {
+        projectRepository.deleteAll();
+        Assertions.assertTrue(projectRepository.findAll().isEmpty());
     }
 }

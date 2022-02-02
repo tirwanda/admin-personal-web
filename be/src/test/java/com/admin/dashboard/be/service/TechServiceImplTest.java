@@ -5,7 +5,6 @@ import com.admin.dashboard.be.entity.Tech;
 import com.admin.dashboard.be.repository.ProjectRepository;
 import com.admin.dashboard.be.repository.TechRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import static org.mockito.Mockito.verify;
 
 import javax.persistence.EntityManager;
 import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(MockitoJUnitRunner.class)
 class TechServiceImplTest {
@@ -33,10 +32,30 @@ class TechServiceImplTest {
     private TechServiceImpl techService;
     private AutoCloseable autoCloseable;
 
+    private Tech tech1;
+    private Tech tech2;
+    private Project project;
+
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
         techService = new TechServiceImpl(techRepository, projectRepository, entityManager);
+
+        tech1 = Tech.builder()
+                .name("Spring Boot")
+                .techId(1L)
+                .build();
+        tech2 = Tech.builder()
+                .techId(2L)
+                .name("React Js")
+                .build();
+
+        project = Project.builder()
+                .projectId(1L)
+                .title("Project1")
+                .descriptions("This is example of project")
+                .techList(Arrays.asList(tech1, tech2))
+                .build();
     }
 
     @AfterEach
@@ -52,20 +71,15 @@ class TechServiceImplTest {
     }
 
     @Test
-    void getAllTechByProject() {
-        Tech tech = Tech.builder()
-                .name("Spring Boot")
-                .build();
-        Tech tech2 = Tech.builder()
-                .name("React Js")
-                .build();
+    void itShouldSaveTech() {
+        Mockito.when(techRepository.save(tech1)).thenReturn(tech1);
+        Tech actualTech = techService.saveTech(tech1);
 
-        Project project = Project.builder()
-                .projectId(1L)
-                .title("Project1")
-                .descriptions("This is example of project")
-                .techList(Arrays.asList(tech, tech2))
-                .build();
+        assertThat(actualTech).isEqualTo(tech1);
+    }
+
+    @Test
+    void itShouldReturnListOfTechWhenFindTechByProjectId() {
         Mockito.when(projectRepository.findById(1L)).thenReturn(Optional.ofNullable(project));
         List<Tech> actualTechList = techService.getAllTechByProject(1L);
         assert project != null;
@@ -73,40 +87,45 @@ class TechServiceImplTest {
     }
 
     @Test
-    void getAllTech() {
-        Tech tech = Tech.builder()
-                .name("Spring Boot")
-                .build();
-        Tech tech2 = Tech.builder()
-                .name("React Js")
-                .build();
-        
-        Mockito.when(techRepository.findAll()).thenReturn(Arrays.asList(tech, tech2));
+    void itShouldReturnAllTech() {
+        Mockito.when(techRepository.findAll()).thenReturn(Arrays.asList(tech1, tech2));
         List<Tech> actualTechList = techService.getAllTech();
-        assertThat(actualTechList).isEqualTo(Arrays.asList(tech, tech2));
+        assertThat(actualTechList).isEqualTo(Arrays.asList(tech1, tech2));
     }
 
     @Test
-    void getTechById() {
-        Tech tech = Tech.builder()
-                .techId(1L)
-                .name("Spring Boot")
-                .build();
+    void itShouldSaveBatchTech() {
+        Mockito.when(techRepository.saveAll(List.of(tech1, tech2))).thenReturn(List.of(tech1, tech2));
+        assertThat(techRepository.saveAll(List.of(tech1, tech2))).isEqualTo(List.of(tech1, tech2));
+    }
 
-        Mockito.when(techRepository.findById(1L)).thenReturn(Optional.ofNullable(tech));
+    @Test
+    void itShouldReturnTechWhenFindById() {
+        Mockito.when(techRepository.findById(1L)).thenReturn(Optional.ofNullable(tech1));
         Tech actualTech = techService.getTechById(1L);
-        assertThat(actualTech).isEqualTo(tech);
+        assertThat(actualTech).isEqualTo(tech1);
     }
 
     @Test
-    void getTechByName() {
-        Tech tech = Tech.builder()
-                .techId(1L)
-                .name("Spring Boot")
-                .build();
-
-        Mockito.when(techRepository.findByNameContains("Spring Boot")).thenReturn(Collections.singletonList(tech));
+    void itShouldReturnTechWhenFindByNameContains() {
+        Mockito.when(techRepository.findByNameContains("Spring Boot")).thenReturn(Collections.singletonList(tech1));
         List<Tech> actualTech = techService.getTechByName("Spring Boot");
-        assertThat(actualTech).isEqualTo(Collections.singletonList(tech));
+        assertThat(actualTech).isEqualTo(Collections.singletonList(tech1));
+    }
+
+    @Test
+    void itShouldDeleteTech() {
+        Mockito.when(techRepository.findById(1L)).thenReturn(Optional.of(tech1));
+        techService.deleteTech(tech1.getTechId());
+        verify(techRepository).deleteById(tech1.getTechId());
+    }
+
+    @Test
+    void itShouldUpdateTech() {
+        tech1.setName("Tech Update");
+        Mockito.when(techRepository.findById(tech1.getTechId())).thenReturn(Optional.of(tech1));
+        Mockito.when(techRepository.save(tech1)).thenReturn(tech1);
+        Tech actualTech = techService.updateTech(tech1);
+        assertThat(actualTech).isEqualTo(tech1);
     }
 }

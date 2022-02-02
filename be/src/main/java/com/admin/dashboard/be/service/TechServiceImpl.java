@@ -69,9 +69,11 @@ public class TechServiceImpl implements TechService{
         assert tech != null;
         List<Project> projects = tech.getProjects();
 
-        for (Project project : projects) {
-            project.getTechList().remove(tech);
-            entityManager.merge(project);
+        if (projects != null) {
+            for (Project project : projects) {
+                project.getTechList().remove(tech);
+                entityManager.merge(project);
+            }
         }
 
         techRepository.deleteById(techId);

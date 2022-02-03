@@ -49,12 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/login", "/api/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers("/api/**").permitAll();
         http.authorizeRequests().antMatchers("/swagger-ui/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/user/save").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(PUT, "/api/user/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/api/user/**").hasAuthority("ROLE_USER");
-//        http.authorizeRequests().antMatchers(POST, "/api/**").hasAuthority("ROLE_USER");
-//        http.authorizeRequests().antMatchers(PUT, "/api/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);

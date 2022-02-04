@@ -1,10 +1,7 @@
 package com.admin.dashboard.be.service;
 
-import com.admin.dashboard.be.entity.ProfileImage;
 import com.admin.dashboard.be.entity.Role;
 import com.admin.dashboard.be.entity.User;
-import com.admin.dashboard.be.wrappers.ProfileImageWrapper;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

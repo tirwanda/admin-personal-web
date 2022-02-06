@@ -36,6 +36,7 @@ class ProjectServiceImplTest {
 
     @Mock private ProjectImageService projectImageService;
     @Mock private TagService tagService;
+    @Mock private TechService techService;
 
     @InjectMocks
     private ProjectServiceImpl projectService;
@@ -179,5 +180,70 @@ class ProjectServiceImplTest {
         verify(userRepository, times(1)).findById(user2.getUserId());
         assertThat(actualProjects.size()).isEqualTo(1);
         Assertions.assertTrue(actualProjects.contains(project2));
+    }
+
+    @Test
+    void itShouldReturnListOfProject() {
+        Mockito.when(projectRepository.findAll()).thenReturn(List.of(project1, project2));
+        List<Project> actualProjects = projectService.getAllProjects();
+
+        verify(projectRepository, times(1)).findAll();
+        Assertions.assertEquals(2, actualProjects.size());
+        Assertions.assertTrue(actualProjects.containsAll(List.of(project1, project2)));
+    }
+
+    @Test
+    void itShouldReturnListProjectWithFindByTag() {
+        project1.setTag(tag1);
+        Mockito.when(projectRepository.findProjectByTag(tag1.getTagId())).thenReturn(List.of(project1));
+        List<Project> actualProjects = projectService.findProjectByTag(tag1.getTagId());
+
+        verify(projectRepository, times(1)).findProjectByTag(tag1.getTagId());
+        assertThat(actualProjects.contains(project1)).isTrue();
+    }
+
+    @Test
+    void itShouldReturnListProjectWithFindByTech() {
+        project1.setTechList(List.of(tech1));
+        Mockito.when(techService.getTechById(tech1.getTechId())).thenReturn(tech1);
+        Mockito.when(projectRepository.findProjectByTech(tech1)).thenReturn(List.of(project1));
+
+        List<Project> actualProjects = projectService.findProjectByTech(tech1.getTechId());
+
+        verify(projectRepository, times(1)).findProjectByTech(tech1);
+        verify(techService, times(1)).getTechById(tech1.getTechId());
+        assertThat(actualProjects.contains(project1)).isTrue();
+    }
+
+    @Test
+    void itShouldReturnProjectByProjectId() {
+        Mockito.when(projectRepository.findProjectByProjectId(project1.getProjectId())).thenReturn(project1);
+        Project actualProject = projectService.getProject(project1.getProjectId());
+
+        verify(projectRepository, times(1)).findProjectByProjectId(project1.getProjectId());
+        assertThat(actualProject.getTitle()).isEqualTo("Project 1");
+    }
+
+    @Test
+    void itShouldRemoveTechFromProject() {
+        project1.getTechList().add(tech1);
+        Mockito.when(projectRepository.findById(project1.getProjectId())).thenReturn(Optional.of(project1));
+        Mockito.when(techRepository.findById(tech1.getTechId())).thenReturn(Optional.of(tech1));
+
+        String response = projectService.removeTechFromProject(tech1.getTechId(), project1.getProjectId());
+        verify(projectRepository, times(1)).findById(project1.getProjectId());
+        verify(techRepository, times(1)).findById(tech1.getTechId());
+        assertThat(project1.getTechList().isEmpty()).isTrue();
+        assertThat(response).isEqualTo("Success remove Teh from Project");
+    }
+
+    @Test
+    void itShouldUpdateProject() {
+        Mockito.when(projectRepository.findById(project1.getProjectId())).thenReturn(Optional.of(project1));
+        project1.setTitle("Title Updated");
+        Project actualProject = projectService.updateProject(project1);
+
+        verify(projectRepository, times(1)).findById(project1.getProjectId());
+        assertThat(actualProject.getTitle()).isEqualTo("Title Updated");
     }
 }

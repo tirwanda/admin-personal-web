@@ -10,6 +10,7 @@ import { lightTheme } from './atoms/Themes/Themes';
 import MainAbout from './pages/MainAbout/MainAbout';
 import MainBlog from './pages/MainBlog/MainBlog';
 import MainSkills from './pages/MainSkills/MainSkills';
+import MainWork from './pages/MainWork/MainWork';
 
 function App() {
 	return (
@@ -22,6 +23,7 @@ function App() {
 						<Route exact path="/about" component={MainAbout} />
 						<Route exact path="/blog" component={MainBlog} />
 						<Route exact path="/skills" component={MainSkills} />
+						<Route exact path="/work" component={MainWork} />
 						<Route exact path="/login" component={LoginPage} />
 						<Route path="/dashboard" component={Dashboard} />
 					</Switch>

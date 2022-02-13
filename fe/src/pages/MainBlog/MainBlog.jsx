@@ -10,8 +10,9 @@ import BlogComponent from '../../molecule/BlogComponent/BlogComponent';
 import { Blogs } from '../../data/BlogData';
 import AnchorComponent from '../../atoms/Anchor/AnchorComponent';
 import BigTitle from '../../atoms/BigTitle/BigTitle';
+import { motion } from 'framer-motion';
 
-const MainContainerBlog = styled.div`
+const MainContainerBlog = styled(motion.div)`
 	background-image: url(${wallpaper});
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -39,6 +40,18 @@ const Grid = styled.div`
 	grid-gap: calc(1rem + 2vw);
 `;
 
+const container = {
+	hidden: { opacity: 0 },
+	show: {
+		opacity: 1,
+
+		transitions: {
+			staggerChildren: 0.5,
+			duration: 0.5,
+		},
+	},
+};
+
 const MainBlog = () => {
 	const [numbers, setNumbers] = useState(0);
 
@@ -47,7 +60,15 @@ const MainBlog = () => {
 		setNumbers(parseInt(num));
 	}, []);
 	return (
-		<MainContainerBlog>
+		<MainContainerBlog
+			variants={container}
+			initial="hidden"
+			animate="show"
+			exit={{
+				opacity: 0,
+				transition: { duration: 0.5 },
+			}}
+		>
 			<Container>
 				<LogoComponent />
 				<PowerButton />

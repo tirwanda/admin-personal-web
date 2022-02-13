@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage/LoginPage';
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -11,14 +11,16 @@ import MainAbout from './pages/MainAbout/MainAbout';
 import MainBlog from './pages/MainBlog/MainBlog';
 import MainSkills from './pages/MainSkills/MainSkills';
 import MainWork from './pages/MainWork/MainWork';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
+	const location = useLocation();
 	return (
 		<div>
 			<GlobalStyle />
-			<Router>
-				<ThemeProvider theme={lightTheme}>
-					<Switch>
+			<ThemeProvider theme={lightTheme}>
+				<AnimatePresence exitBeforeEnter>
+					<Switch location={location} key={location.pathname}>
 						<Route exact path="/" component={MainHome} />
 						<Route exact path="/about" component={MainAbout} />
 						<Route exact path="/blog" component={MainBlog} />
@@ -27,8 +29,8 @@ function App() {
 						<Route exact path="/login" component={LoginPage} />
 						<Route path="/dashboard" component={Dashboard} />
 					</Switch>
-				</ThemeProvider>
-			</Router>
+				</AnimatePresence>
+			</ThemeProvider>
 		</div>
 	);
 }

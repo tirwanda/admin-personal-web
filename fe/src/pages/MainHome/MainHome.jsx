@@ -134,6 +134,22 @@ const MainHome = () => {
 					to={{ pathname: 'mailto:edhodwitirwanda@gmail.com' }}
 				>
 					<motion.h2
+						initial={{
+							y: -200,
+							transition: {
+								type: 'spring',
+								duration: 1.5,
+								delay: 1,
+							},
+						}}
+						animate={{
+							y: 0,
+							transition: {
+								type: 'spring',
+								duration: 1.5,
+								delay: 1,
+							},
+						}}
 						whileHover={{ scale: 1.1 }}
 						whileTap={{ scale: 0.9 }}
 					>
@@ -143,6 +159,22 @@ const MainHome = () => {
 
 				<Blog to="/blog">
 					<motion.h2
+						initial={{
+							y: -200,
+							transition: {
+								type: 'spring',
+								duration: 1.5,
+								delay: 1,
+							},
+						}}
+						animate={{
+							y: 0,
+							transition: {
+								type: 'spring',
+								duration: 1.5,
+								delay: 1,
+							},
+						}}
 						whileHover={{ scale: 1.1 }}
 						whileTap={{ scale: 0.9 }}
 					>
@@ -152,6 +184,22 @@ const MainHome = () => {
 
 				<Work click={click} to="/work">
 					<motion.h2
+						initial={{
+							y: -200,
+							transition: {
+								type: 'spring',
+								duration: 1.5,
+								delay: 1,
+							},
+						}}
+						animate={{
+							y: 0,
+							transition: {
+								type: 'spring',
+								duration: 1.5,
+								delay: 1,
+							},
+						}}
 						whileHover={{ scale: 1.1 }}
 						whileTap={{ scale: 0.9 }}
 					>
@@ -162,6 +210,22 @@ const MainHome = () => {
 				<BottomBar>
 					<About click={click} to="/about">
 						<motion.h2
+							initial={{
+								y: 200,
+								transition: {
+									type: 'spring',
+									duration: 1.5,
+									delay: 1,
+								},
+							}}
+							animate={{
+								y: 0,
+								transition: {
+									type: 'spring',
+									duration: 1.5,
+									delay: 1,
+								},
+							}}
 							whileHover={{ scale: 1.1 }}
 							whileTap={{ scale: 0.9 }}
 						>
@@ -170,6 +234,22 @@ const MainHome = () => {
 					</About>
 					<Skills to="/Skills">
 						<motion.h2
+							initial={{
+								y: 200,
+								transition: {
+									type: 'spring',
+									duration: 1.5,
+									delay: 1,
+								},
+							}}
+							animate={{
+								y: 0,
+								transition: {
+									type: 'spring',
+									duration: 1.5,
+									delay: 1,
+								},
+							}}
 							whileHover={{ scale: 1.1 }}
 							whileTap={{ scale: 0.9 }}
 						>

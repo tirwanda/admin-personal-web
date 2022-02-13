@@ -1,12 +1,26 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Github } from '../../atoms/AllSvgs/AllSvgs';
 
+const Item = {
+	hidden: {
+		scale: 0,
+	},
+	show: {
+		scale: 1,
+		transition: {
+			type: 'spring',
+			duration: 0.5,
+		},
+	},
+};
+
 const Card = (props) => {
 	const { id, title, description, tech, demo, github } = props.data;
 
-	const Box = styled.li`
+	const Box = styled(motion.li)`
 		width: 18rem;
 		height: 40vh;
 		background-color: ${(props) => props.theme.text};
@@ -84,7 +98,7 @@ const Card = (props) => {
 	`;
 
 	return (
-		<Box key={id}>
+		<Box key={id} variants={Item}>
 			<Title>{title}</Title>
 			<Description>{description}</Description>
 			<TechContainer>

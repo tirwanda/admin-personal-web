@@ -9,6 +9,7 @@ import BlogComponent from '../../molecule/BlogComponent/BlogComponent';
 
 import { Blogs } from '../../data/BlogData';
 import AnchorComponent from '../../atoms/Anchor/AnchorComponent';
+import BigTitle from '../../atoms/BigTitle/BigTitle';
 
 const MainContainerBlog = styled.div`
 	background-image: url(${wallpaper});
@@ -59,6 +60,7 @@ const MainBlog = () => {
 						})}
 					</Grid>
 				</Center>
+				<BigTitle text="BLOG" top="5rem" left="5rem" />
 			</Container>
 		</MainContainerBlog>
 	);

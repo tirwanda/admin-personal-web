@@ -7,6 +7,7 @@ import ParticleComponent from '../../atoms/ParticleComponent/ParticleComponent';
 import astronout from '../../assets/images/main-content/spaceman.png';
 import SocialIcons from '../../atoms/SocialICons/SocialIcons';
 import { darkTheme } from '../../atoms/Themes/Themes';
+import BigTitle from '../../atoms/BigTitle/BigTitle';
 
 const float = keyframes`
 	0% {
@@ -83,6 +84,7 @@ const MainAbout = () => {
 					Skilled in JAVA/J2EE, Mongodb, MySQL, Reactjs, Sveltejs,
 					React Native, Nodejs/Expressjs.
 				</Main>
+				<BigTitle text="ABOUT" top="10%" left="5%" />
 			</Box>
 		</ThemeProvider>
 	);

@@ -6,6 +6,7 @@ import SocialIcons from '../../atoms/SocialICons/SocialIcons';
 import ParticleComponent from '../../atoms/ParticleComponent/ParticleComponent';
 import { lightTheme } from '../../atoms/Themes/Themes';
 import { Design, Develope } from '../../atoms/AllSvgs/AllSvgs';
+import BigTitle from '../../atoms/BigTitle/BigTitle';
 
 const Box = styled.div`
 	background-color: ${(props) => props.theme.body};
@@ -129,6 +130,7 @@ const MainSkills = () => {
 						<p>Vs Code, Postman, Github, IntelIj</p>
 					</Description>
 				</Main>
+				<BigTitle text="SKILLS" top="80%" left="30%" />
 			</Box>
 		</ThemeProvider>
 	);

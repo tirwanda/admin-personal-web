@@ -8,12 +8,15 @@ import { darkTheme } from '../../atoms/Themes/Themes';
 
 import { Work } from '../../data/WorkData';
 import Card from '../../molecule/Card/Card';
+import { YinYang } from '../../atoms/AllSvgs/AllSvgs';
+import BigTitle from '../../atoms/BigTitle/BigTitle';
 
 const Box = styled.div`
 	background-color: ${(props) => props.theme.body};
 	height: 400vh;
 	position: relative;
-	overflow: hidden;
+	display: flex;
+	align-items: center;
 `;
 
 const Main = styled.ul`
@@ -26,13 +29,26 @@ const Main = styled.ul`
 	color: white;
 `;
 
+const Rotate = styled.span`
+	display: block;
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	width: 80px;
+	height: 80px;
+	z-index: 1;
+`;
+
 const MainWork = () => {
 	const ref = useRef(null);
+	const yinyang = useRef(null);
 
 	useEffect(() => {
 		let element = ref.current;
 		const rotate = () => {
 			element.style.transform = `translateX(${-window.pageYOffset}px)`;
+			return (yinyang.current.style.transform =
+				`rotate(` + -window.pageYOffset + 'deg)');
 		};
 		window.addEventListener('scroll', rotate);
 		return () => window.removeEventListener('scroll', rotate);
@@ -44,12 +60,17 @@ const MainWork = () => {
 				<LogoComponent theme="dark" />
 				<SocialIcons theme="dark" />
 				<PowerButton />
-				<Main>
+				<Main ref={ref}>
 					{Work.map((data) => (
 						<Card data={data} key={data.id} />
 					))}
 				</Main>
 			</Box>
+
+			<Rotate ref={yinyang}>
+				<YinYang width={80} height={80} fill={darkTheme.text} />
+			</Rotate>
+			<BigTitle text="WORK" top="10%" right="20%" />
 		</ThemeProvider>
 	);
 };
